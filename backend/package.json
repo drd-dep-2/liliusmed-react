@@ -4,8 +4,8 @@
   "description": "LiliusMed Backend",
   "main": "server.js",
   "scripts": {
-    "test": "npm run dev",
-    "start": "node server.js"
+    "dev": "nodemon server.js NODE_ENV=development",
+    "start": "node server.js NODE_ENV=production"
   },
   "keywords": [
     "Node",
@@ -27,6 +27,7 @@
     "connect-redis": "^4.0.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "helmet": "^3.22.0",
