@@ -4,8 +4,8 @@ import './App.css';
 import hospitals from './hospital.geojson'
 import {Nav, Navbar, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
 import AppRouter from './router.js'
-import RequestSuppliesModal from './Components/requestSuppliesFormModal'
-
+import RequestSuppliesModal from './Components/RequestSuppliesFormModal/RequestSuppliesFormModal'
+import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
@@ -22,10 +22,9 @@ function App() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link onClick={() => setModalShow(true)}>Create a Hosptial Supply Request</Nav.Link>
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          <div>
+            <SearchForHospitalNames className="mr-sm-2" />
+          </div>
         </Navbar.Collapse>
       </Navbar>
       <div>

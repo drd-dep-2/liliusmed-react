@@ -1,0 +1,51 @@
+.hospitalSearchBox {
+    display: inline-flex;
+}
+.optionListBox {
+    border: 1px solid black;
+    margin: auto;
+    z-index: 1;
+    position: absolute;
+    background-color: #ffffff;
+    margin-top: 2rem;
+}
+.optionList {
+    list-style-type: none;
+    font-size: 1rem;
+    padding: 0px;
+    margin: 0px;
+}
+.option {
+    border: 1px solid black;
+    padding: 2px;
+}
+.option:hover {
+    cursor: pointer;
+
+}
+.searchBar {
+    height: 2rem;
+    font-size: 1rem;
+}
+.searchBar:focus {
+    outline: none;
+}
+.searchHospitalNamesButton {
+    font-size: 1rem;
+    color: #494949 !important;
+    font-family: Arial, Helvetica, sans-serif;
+    /* text-transform: uppercase; */
+    font-weight: 600;
+    text-decoration: none;
+    background: #ffffff;
+    padding: 2px;
+    border: 1px solid #494949 !important;
+    display: inline-block;
+    transition: all 0.4s ease 0s;
+}
+.searchHospitalNamesButton:hover {
+    color: #ffffff !important;
+    background: #49c66c;
+    border-color: #ffffff !important;
+    transition: all 0.2s ease 0s;
+}

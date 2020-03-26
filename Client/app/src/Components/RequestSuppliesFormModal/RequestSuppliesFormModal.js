@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
+import './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
@@ -28,6 +30,9 @@ export default function RequestSuppliesModal(props) {
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            <div className="searchBarContainer">
+              <SearchForHospitalNames />
+            </div>
             <Formik
                 {...props}
                 initialValues={{ name:"", email:"", hospital:""}}
