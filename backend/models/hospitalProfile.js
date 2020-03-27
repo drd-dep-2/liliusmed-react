@@ -46,12 +46,26 @@ let hospitalSchema = Schema({
 	},
 	data: {
 		ventilators: Number,
-		gloves: Number,
-		masks: Number,
-		gowns: Number,
-		respirators: Number,
+		gloves: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		faceShields: Number,
+		surgicalMasks: Number,
+		gowns: {
+			size1: Number,
+			size2: Number
+		},
+		respirators: {
+			rNorth7130: Number,
+			r3M8210: Number,
+			r3M1860: Number
+		},
 		coronavirusTests: Number,
-		coronavirusPatients: Number
+		coronavirusPatients: Number,
+		coronavirusPUI: Number,
 	},
 	bedData: {
 		bedCount: Number,
@@ -62,6 +76,6 @@ let hospitalSchema = Schema({
 		totalDoctors: Number,
 		totalNurses: Number
 	}
-});
+}, { collection: 'Hospitals'});
 
 module.exports = hospitalSchema;
