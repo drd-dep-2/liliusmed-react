@@ -36,7 +36,7 @@ module.exports.registerHospital = async(info, bool) => {
 		'hospitalInfo.facilityLicenseNumber': info.facilityLicenseNumber,
 
 	}
-	Hospital.findOneAndUpdate({ 'hospitalInfo.name': info.name }, {$push: push }, (err, hospital) => {
+	Hospital.findOneAndUpdate({ 'hospitalInfo.name': info.name }, {$set: push }, {upsert: false}, (err, hospital) => {
 		if (err) {
 			console.log(err);
 		} else {
