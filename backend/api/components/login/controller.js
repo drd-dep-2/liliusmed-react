@@ -9,7 +9,7 @@
 
 module.exports.login = async(email, projection) => {
 	const docs = await Hospital.find({
-		'hospitalInfo.email[0]': email,
+		'hospitalInfo.email': email,
 	}, projection).limit(1).exec();
 
 	// Error Handling - Model Return

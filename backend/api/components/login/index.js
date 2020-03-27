@@ -34,6 +34,8 @@ router.post('/login/authenticate', (req, res) => {
 				} else if (val == true) {
 					const token = jwt.sign({ email }, config.app.secret);
 					req.cookies.auth = token;
+					console.log(token);
+					console.log(req.cookies.auth);
 					res.redirect('/api/dashboard/' + email);
 				} else {
 					res.redirect('/api/login');

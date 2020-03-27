@@ -24,7 +24,6 @@ function isAuthenticated(req, res, next) {
 
 // Get Dashboard
 router.get('/dashboard/:email', isAuthenticated, (req, res) => {
-	let token = req.params.token;
 	let email = req.params.email;
 	let cookie = req.cookie.auth;
 
