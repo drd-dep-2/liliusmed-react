@@ -4,12 +4,12 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const config = require('../../../config/api_config');
-
 // Login & Security
 const Hospital = require('./controller');
-const auth = require('basic-auth');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+router.use(require('cookie-parser')());
+
 
 // Render Page
 router.get('/login', (req, res) => {
@@ -29,10 +29,11 @@ router.post('/login/authenticate', (req, res) => {
 			let hospital = result;
 			await bcryptjs.compare(password, hospital.security.hashed_password, (err, val) => {
 				if (err) {
-					res.status(401).json(reuslt);
+					res.status(401).json(err);
 				} else if (val == true) {
 					const token = jwt.sign({ email }, config.app.secret);
-					res.redirect('/api/dashboard/' + email + '/' + token);
+					req.cookies.auth = token;
+					res.redirect('/api/dashboard/' + email);
 				} else {
 					res.redirect('/api/login');
 				}
