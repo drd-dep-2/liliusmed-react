@@ -10,7 +10,14 @@ const Hospital = require('./controller');
 // Get Register Page
 // Add API Call to Get all Hosptial Names and Send to Array
 router.get('/register', (req, res) => {
-	res.send('API Functional');
+	Hospital.getAllHospitals()
+		.then(result => {
+			res.send(result);
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	//res.send('API Functional');
 });
 
 // Register Form Submission - POST
@@ -36,7 +43,7 @@ router.post('/register/hospital', (req, res) => {
 	if (!upperFormCheck || upperFormCheck !== 'WHITE') {
 		res.redirect('/api/register');
 	} else {
-		Business.registerHospital(info)
+		Hospital.registerHospital(info)
 			.then(result => {
 				res.redirect('/api/login');
 			})

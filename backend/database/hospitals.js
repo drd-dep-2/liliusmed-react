@@ -17,7 +17,7 @@ mongoose.connect(db, { useCreateIndex: true, useNewUrlParser: true }, (err, data
 	if (err) {
 		return err;
 	} else {
-		let businesses = database.collection('hospitals');
+		let Hospitals = database.collection('Hospitals');
 	}
 });
 
