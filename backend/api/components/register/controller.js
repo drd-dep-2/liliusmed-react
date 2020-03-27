@@ -16,13 +16,7 @@ async function hash(s) {
   return hashed;
 }
 
-async function verification(facilityId, original) {
-	if (facilityId == original) {
-		return true;
-	} else {
-		return false;
-	}
-}
+
 
 module.exports.getAllHospitals = async() => {
 	let query = Hospital.find({}).select('hospitalInfo.name hospitalInfo.fipsId');
@@ -30,36 +24,23 @@ module.exports.getAllHospitals = async() => {
 	return doc;
 }
 
-module.exports.registerHospital = async(info) => {
+module.exports.registerHospital = async(info, bool) => {
 
 	const hashedPassword = await hash(info.password);
-	const verification = await verification(info.facilityId, info.originalFacilityId);
+	//const verification = await verification(info.userFips, info.originalFips);
+	let push = {
+		verified: bool,
+		'security.hashed_password': info.hashedPassword,
+		'hospitalInfo.email': info.email,
+		'hospitalInfo.facilityId': info.facilityId,
+		'hospitalInfo.facilityLicenseNumber': info.facilityLicenseNumber,
 
-	Hospital.findOne({ 'hospitalInfo.name': info.name }, (err, hospital) => {
+	}
+	Hospital.findOneAndUpdate({ 'hospitalInfo.name': info.name }, {$push: push }, (err, hospital) => {
 		if (err) {
-			throw {
-				status: 500,
-				message: err.message
-			};
+			console.log(err);
 		} else {
-			hospital.hospitalInfo.email = info.email;
-			hospital.hospitalInfo.facilityLicesneNumber = info.facilityLicenseNumber;
-			hospital.security.hashed_password = hashedPassword;
-			hospital.verified = verification;
-
-			hospital.save((err) => {
-				if (!err) {
-					return {
-						status: 200,
-						message: 'Hospital Successfully Registered and Verified'
-					};
-				} else {
-					throw {
-						status: 500,
-						message: 'Hospital Could Not Be Registered'
-					};
-				}
-			});
+			console.log('Success');
 		}
 	});
 	

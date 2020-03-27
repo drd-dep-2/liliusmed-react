@@ -12,6 +12,7 @@ if (config.app.type == 'production') {
 	db = config.database.hospitals.devUri;
 }
 //mongoose.set('debug', true);
+mongoose.set('useFindAndModify', false);
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(db, { useCreateIndex: true, useNewUrlParser: true }, (err, database) => {
 	if (err) {
