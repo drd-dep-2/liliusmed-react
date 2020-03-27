@@ -6,7 +6,8 @@ const compression = require('compression');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-
+var cookieParser = require('cookie-parser');
+ 
 // Sessions
 const session = require('express-session');
 const redis = require('redis');
@@ -23,6 +24,9 @@ const app = module.exports = express();
 redisClient.on('error', (err) => {
 	console.log(`Redis Err: ${err}`);
 });
+
+//For parsing Cookie header and populating req.cookies
+app.use(cookieParser());
 
 app.use(
   session({
