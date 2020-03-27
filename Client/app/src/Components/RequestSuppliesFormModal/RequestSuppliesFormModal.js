@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
-import theme from './RequestSuppliesFormModal.css';
+//import theme from './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
@@ -14,7 +14,6 @@ export default function RequestSuppliesModal(props) {
     useEffect(() => {
         {props.onHide()}
       }, [successfulSubmit]);
-
     const handleChangeValue = e => setHospitalName(e.target.value) //this.setState({value: e.target.value});
     return (
 
@@ -83,7 +82,7 @@ export default function RequestSuppliesModal(props) {
                 </Form.Group>
                 <Form.Group autocomplete="off" controlId="formHospitalName">
                   <Form.Label>Hospital Name :</Form.Label>
-                  <SearchForHospitalNames value={hospitalName} setValue={handleChangeValue}/>
+                  <SearchForHospitalNames value={hospitalName} setValue={handleChangeValue} hospitalList={props.hospitalList}/>
                 </Form.Group>
                 <Form.Group controlId="formEmail">
                   <Form.Label>Email :</Form.Label>
