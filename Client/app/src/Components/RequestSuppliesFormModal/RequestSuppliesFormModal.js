@@ -5,16 +5,17 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
-import './RequestSuppliesFormModal.css';
+import theme from './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
+    const [hospitalName, setHospitalName] = useState("")
     //const [modalShow, setModalShow] = useState(props.modalShow);
     useEffect(() => {
         {props.onHide()}
       }, [successfulSubmit]);
 
-
+    const handleChangeValue = e => setHospitalName(e.target.value) //this.setState({value: e.target.value});
     return (
 
         <Modal
@@ -26,13 +27,10 @@ export default function RequestSuppliesModal(props) {
         >
             <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-                Modal heading
+                Request Hospital Supplies
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <div className="searchBarContainer">
-              <SearchForHospitalNames />
-            </div>
             <Formik
                 {...props}
                 initialValues={{ name:"", email:"", hospital:""}}
@@ -43,7 +41,8 @@ export default function RequestSuppliesModal(props) {
 
                     // Simulate submitting to database, shows us values submitted, resets form
                 setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
+                    //alert(JSON.stringify(values, null, 2));
+                    alert(JSON.stringify(hospitalName, null, 2))
                     //resetForm();
                     //setSubmitting(false);
                 }, 500);
@@ -52,77 +51,65 @@ export default function RequestSuppliesModal(props) {
                 }}
                 
             >
-        {/* Callback function containing Formik state and helpers that handle common form actions */}
-      {( {values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting }) => (
-        <MYFORM onSubmit={handleSubmit} className="mx-auto">
-          {console.log(values)}
-          <Form.Group controlId="formName">
-            <Form.Label>Name :</Form.Label>
-            <Form.Control
-              type="text"
-              /* This name property is used to access the value of the form element via values.nameOfElement */
-              name="name"
-              placeholder="Full Name"
-              /* Set onChange to handleChange */
-              onChange={handleChange}
-              /* Set onBlur to handleBlur */
-              onBlur={handleBlur}
-              /* Store the value of this input in values.name, make sure this is named the same as the name property on the form element */
-              value={values.name}
-              /* Check if the name field (this field) has been touched and if there is an error, if so add the .error class styles defined in the CSS (make the input box red) */
-              className={touched.name && errors.name ? "error" : null}
-              />
-              {/* Applies the proper error message from validateSchema when the user has clicked the element and there is an error, also applies the .error-message CSS class for styling */}
-              {touched.name && errors.name ? (
-                <div className="error-message">{errors.name}</div>
-              ): null}
-          </Form.Group>
-          <Form.Group controlId="formHospitalName">
-            <Form.Label>Hospital Name :</Form.Label>
-            <Form.Control
-              type="text"
-              name="hospital name"
-              placeholder="Hospital Name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.hospitalName}
-              className={touched.name && errors.name? "error" : null}
-            />
-            {touched.name && errors.name ? (
-                <div className="error-message">{errors.name}</div>
-              ): null}
-          </Form.Group>
-          <Form.Group controlId="formEmail">
-            <Form.Label>Email :</Form.Label>
-            <Form.Control
-              type="text"
-              name="email"
-              placeholder="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              className={touched.email && errors.email ? "error" : null}
-            />
-            {touched.email && errors.email ? (
-                <div className="error-message">{errors.email}</div>
-              ): null}
-          </Form.Group>
-         
-          <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
-            Submit
-          </BUTTON>
-        </MYFORM>
-      )}
-      </Formik>
-            </Modal.Body>
-        </Modal>
-    );
+            {( {values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting }) => (
+              <MYFORM onSubmit={handleSubmit} className="mx-auto">
+                {console.log(values)}
+                <Form.Group controlId="formName">
+                  <Form.Label>Name :</Form.Label>
+                  <Form.Control
+                    type="text"
+                    /* This name property is used to access the value of the form element via values.nameOfElement */
+                    name="name"
+                    placeholder="Full Name"
+                    /* Set onChange to handleChange */
+                    onChange={handleChange}
+                    /* Set onBlur to handleBlur */
+                    onBlur={handleBlur}
+                    /* Store the value of this input in values.name, make sure this is named the same as the name property on the form element */
+                    value={values.name}
+                    /* Check if the name field (this field) has been touched and if there is an error, if so add the .error class styles defined in the CSS (make the input box red) */
+                    className={touched.name && errors.name ? "error" : null}
+                    />
+                    {/* Applies the proper error message from validateSchema when the user has clicked the element and there is an error, also applies the .error-message CSS class for styling */}
+                    {touched.name && errors.name ? (
+                      <div className="error-message">{errors.name}</div>
+                    ): null}
+                </Form.Group>
+                <Form.Group autocomplete="off" controlId="formHospitalName">
+                  <Form.Label>Hospital Name :</Form.Label>
+                  <SearchForHospitalNames value={hospitalName} setValue={handleChangeValue}/>
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                  <Form.Label>Email :</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    className={touched.email && errors.email ? "error" : null}
+                  />
+                  {touched.email && errors.email ? (
+                      <div className="error-message">{errors.email}</div>
+                    ): null}
+                </Form.Group>
+              
+                <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
+                  Submit
+                </BUTTON>
+              </MYFORM>
+            )}
+            </Formik>
+                  </Modal.Body>
+              </Modal>
+          );
   }
 
 const CONTAINER = styled.div`

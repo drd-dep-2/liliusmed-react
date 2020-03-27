@@ -1,5 +1,6 @@
 .hospitalSearchBox {
-    display: inline-flex;
+    
+    display: flex
 }
 .optionListBox {
     border: 1px solid black;
