@@ -27,7 +27,8 @@ router.post('/login/authenticate', (req, res) => {
 	Hospital.login(email)
 		.then(async(result) => {
 			let hospital = result;
-			await bcryptjs.compare(password, hospital.security.hashed_password, (err, val) => {
+			let origPassword = hospital.security.hashed_password[0];
+			await bcryptjs.compare(password, origPassword, (err, val) => {
 				if (err) {
 					res.status(401).json(err);
 				} else if (val == true) {
