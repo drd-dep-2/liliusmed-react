@@ -30,7 +30,7 @@ module.exports.registerHospital = async(info, bool) => {
 	//const verification = await verification(info.userFips, info.originalFips);
 	let push = {
 		verified: bool,
-		'security.hashed_password': info.hashedPassword,
+		'security.hashed_password': hashedPassword,
 		'hospitalInfo.email': info.email,
 		'hospitalInfo.facilityId': info.facilityId,
 		'hospitalInfo.facilityLicenseNumber': info.facilityLicenseNumber,

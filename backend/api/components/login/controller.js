@@ -8,8 +8,8 @@
  const Hospital = module.exports = mongoose.model('hospitals', profile);
 
 module.exports.login = async(email, projection) => {
-	const docs = await Business.find({
-		'businessInfo.email': email,
+	const docs = await Hospital.find({
+		'hospitalInfo.email[0]': email,
 	}, projection).limit(1).exec();
 
 	// Error Handling - Model Return
