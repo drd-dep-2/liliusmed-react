@@ -1,5 +1,4 @@
 .hospitalSearchBox {
-    
     display: flex
 }
 .optionListBox {
@@ -9,6 +8,9 @@
     position: absolute;
     background-color: #ffffff;
     margin-top: 2rem;
+    overflow: scroll;
+    height: 6rem;
+    width: 48%;
 }
 .optionList {
     list-style-type: none;

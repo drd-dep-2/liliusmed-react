@@ -14,7 +14,7 @@ export default function RequestSuppliesModal(props) {
     useEffect(() => {
         {props.onHide()}
       }, [successfulSubmit]);
-    const handleChangeValue = e => setHospitalName(e.target.value) //this.setState({value: e.target.value});
+    const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
     return (
 
         <Modal
