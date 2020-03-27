@@ -2,7 +2,6 @@ import React from "react";
 import App from './App.js'
 import Map from './App.js'
 import RequestSuppliesModal from './Components/RequestSuppliesFormModal/RequestSuppliesFormModal'
-import RequestSuppliesForm from './Components/RequestSuppliesForm/RequestSuppliesForm'
 import {
   BrowserRouter as Router,
   Switch,
