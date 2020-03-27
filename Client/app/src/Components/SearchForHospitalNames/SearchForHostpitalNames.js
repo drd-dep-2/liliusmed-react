@@ -4,13 +4,13 @@ import {Button, FormControl, InputGroup} from 'react-bootstrap';
 
 const SearchForHospitalNames = (props) => {
     const [display, setDisplay] = useState(false);
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
     const wrapperRef = useRef(null);
 
 
     const setSearchValue = hospital => {
         console.log(hospital)
-        setSearch(hospital);
+        props.setValue(hospital);
         setDisplay(false);
     }
 
@@ -35,22 +35,24 @@ const SearchForHospitalNames = (props) => {
             aria-describedby="inputGroup-sizing-lg"
             className="searchBar" 
             placeholder="Search Hospitals" 
-            value={search}
+            value={props.value}
             onChange={(event) => {
-            setSearch(event.target.value)
+            setSearchValue(event.target.value)
             event.target.value.length > 0 ? setDisplay(true) : setDisplay(false)}}
          /> 
         </InputGroup>
     
-        {display && (
+        {display && props.hospitalList != null && (
             <div className="optionListBox">
                 <ul className="optionList">
-                {props.hospitalList.filter(({hospitalInfo})=> hospitalInfo.name.toLowerCase().includes(search.toLowerCase())).map((ele, index) => {
-                    return (
-                        <li onClick={() => setSearchValue(ele.name)} className="option" key={index} tabIndex="0">
-                            {ele.name} 
-                        </li>
-                    )
+                {props.hospitalList.filter(({hospitalInfo})=> hospitalInfo.name.toLowerCase().includes(props.value.toLowerCase())).map((ele, index) => {
+                    if (index < 20) {
+                        return (
+                            <li onClick={() => setSearchValue(ele.hospitalInfo.name)} className="option" key={index} tabIndex="0">
+                                {ele.hospitalInfo.name} 
+                            </li>
+                        )
+                    }
                 })}
                 </ul>
             </div>
