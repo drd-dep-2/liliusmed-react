@@ -36,9 +36,9 @@ app.use(
 // App Setup
 app.use(logger('dev'));
 
-// Format Data as JSON 
-app.use(bodyParser.json());
+// Format Data as JSON
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 /*
 // View Engine
@@ -49,7 +49,7 @@ app.set('views', [__dirname, './client/views', __dirname, './api/views', __dirna
 
 
 // Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Initialize Routing

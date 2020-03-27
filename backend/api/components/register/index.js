@@ -27,23 +27,29 @@ router.post('/register/hospital', (req, res) => {
 	const password = req.body.password;
 	const facilityId = req.body.facilityId;
 	const facilityLicenseNumber = req.body.facilityLicenseNumber;
-	const originalFacilityId = req.body.originalFacilityId;
+	const originalFips = req.body.originalFips;
+	const userFips = req.body.userFips;
+	const hospitalName = req.body.name;
 
-	let formCheck = req.body.formCheck;
+	let formCheck = req.body.check;
 	let upperFormCheck = formCheck.toString().toUpperCase();
 
 	let info = {
+		name: hospitalName,
 		email: email,
 		password: password,
 		facilityId: facilityId,
-		originalFacilityId: originalFacilityId,
+		originalFips: originalFips,
+		userFips: userFips,
 		facilityLicenseNumber: facilityLicenseNumber
 	};
 
+	console.log(info);
+	
 	if (!upperFormCheck || upperFormCheck !== 'WHITE') {
 		res.redirect('/api/register');
-	} else {
-		Hospital.registerHospital(info)
+	} else if (userFips == originalFips) {
+		Hospital.registerHospital(info, true)
 			.then(result => {
 				res.redirect('/api/login');
 			})
@@ -55,7 +61,24 @@ router.post('/register/hospital', (req, res) => {
 				} else {
 					//console.log(err);
 					res.status(500).json({
-						message: err
+						message: err.message
+					});
+				}
+			});
+	} else {
+		Hospital.registerHospital(info, false)
+			.then(result => {
+				res.redirect('/api/login');
+			})
+			.catch(err => {
+				if (err.status) {
+					res.status(err.status).json({
+						message: err.message
+					});
+				} else {
+					//console.log(err);
+					res.status(500).json({
+						message: err.message
 					});
 				}
 			});
