@@ -9,8 +9,32 @@ import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchFo
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
+  const [hospitalList, setHospitalList] = useState(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
+  const getHospitalsEndpoint = "/api/register";
+  const getHospitaloptions = {
+    method: "GET",
+    
+    headers: {
+      "Content-Type": "application/json",     
+    }
+  }
 
+  useEffect(() => {
+    const fetchHospitals =  () => {
+        fetch(getHospitalsEndpoint, getHospitaloptions)
+        .then(result =>
+          result.json()).catch(function(error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+          }).
+        then(data => 
+          {
+            setHospitalList(data)
+            console.log(data)
+          })  
+        };
+        fetchHospitals();
+},[])
 
   return (
     <div>
@@ -23,7 +47,7 @@ function App() {
             <Nav.Link onClick={() => setModalShow(true)}>Create a Hosptial Supply Request</Nav.Link>
           </Nav>
           <div>
-            <SearchForHospitalNames className="mr-sm-2" />
+            <SearchForHospitalNames hospitalList={hospitalList} className="mr-sm-2" />
           </div>
         </Navbar.Collapse>
       </Navbar>
@@ -31,7 +55,7 @@ function App() {
           <RequestSuppliesModal
             show={modalShow}
             onHide={() => setModalShow(false)}
-            //modalShow = {modalShow}
+            hospitalList={hospitalList}
           />  
       </div>
        <Map></Map>
