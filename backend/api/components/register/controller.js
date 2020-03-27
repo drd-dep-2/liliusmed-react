@@ -7,8 +7,8 @@ const config = require('../../../config/api_config');
 
 // Database
 const mongoose = require('../../../database/hospitals');
-const profile = require('../../../models/hospitalProfile'); 
-const Hospital = module.exports = mongoose.model('hospitals', profile);
+const profile = require('../../../models/hospitalProfile');
+const Hospital = module.exports = mongoose.model('Hospitals', profile);
 
 async function hash(s) {
   const salt = await bcryptjs.genSalt(10);
@@ -22,6 +22,12 @@ async function verification(facilityId, original) {
 	} else {
 		return false;
 	}
+}
+
+module.exports.getAllHospitals = async() => {
+	let query = Hospital.find({}).select('hospitalInfo.name hospitalInfo.fipsId');
+	let doc = await query;
+	return doc;
 }
 
 module.exports.registerHospital = async(info) => {
