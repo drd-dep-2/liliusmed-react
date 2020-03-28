@@ -13,22 +13,17 @@ export default function RequestSuppliesModal(props) {
     const [hospitalName, setHospitalName] = useState("")
     const [formData, setFormData] = useState("")
     const modalRef = useRef(null)
-    const registerHospitalEndpoint = "api/register/hospital";
-    const registerHospitalOptions = {
+    const loginEndpoint = "api/login/authenticate";
+    const loginOptions = {
       method: "POST",
       
       headers: {
         "Content-Type": "application/json",     
       },
       body: JSON.stringify({
-        "name" : hospitalName,
-        "email" : formData.email,
-        "password" : formData.password,
-        "facilityId" : formData.facilityId,
-        "facilityLicenseNumber" : formData.facilityLicenseNumber,
-        "originalFips" : 23232,
-        "userFips" : 23232,
-        "check" : "white"
+        
+        "email": formData.email,
+        "password" : formData.password
       })
     }
 
@@ -37,7 +32,7 @@ export default function RequestSuppliesModal(props) {
       }, [successfulSubmit]);
 
     useEffect(() => {
-      fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
+      fetch(loginEndpoint, loginOptions).then(response => 
         {
           if(response.status === 200)
           {
@@ -45,7 +40,7 @@ export default function RequestSuppliesModal(props) {
           }
         });
     }, [formData]);
-    const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
+
     return (
 
         <Modal
@@ -58,13 +53,13 @@ export default function RequestSuppliesModal(props) {
         >
             <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-                Create Hospital Account
+                Log In to Hospital Account 
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <Formik
                 {...props}
-                initialValues={{ name:"", password:"", email:"", facilityId:"", facilityLicenseNumber:""}}
+                initialValues={{ name:"", password:""}}
                 //validationSchema={validationSchema}
                 onSubmit={(values, {setSubmitting,}) => {
                     // When button submits form and form is in the process of submitting, submit button is disabled
@@ -85,11 +80,6 @@ export default function RequestSuppliesModal(props) {
                 handleSubmit,
                 isSubmitting }) => (
               <MYFORM onSubmit={handleSubmit} autoComplete="off" className="mx-auto">
-                <Form.Group autocomplete="off" controlId="formHospitalName">
-                  <Form.Label>Hospital Name :</Form.Label>
-                  <SearchForHospitalNames value={hospitalName} setValue={handleChangeValue} hospitalList={props.hospitalList}/>
-                </Form.Group>
-                
                 <Form.Group controlId="formEmail">
                   <Form.Label>Email :</Form.Label>
                   <Form.Control
@@ -110,43 +100,13 @@ export default function RequestSuppliesModal(props) {
                   <Form.Control
                       type="password"
                       name="password"
-                      placeholder="Email"
+                      placeholder="Password"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.password}
                     />
                       {touched.password && errors.password ? (
                       <div className="error-message">{errors.password}</div>
-                    ): null}
-                </Form.Group>
-                <Form.Group controlId="formFacilityId">
-                  <Form.Label>Facility ID :</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="facilityId"
-                    placeholder="Facility ID"
-                    onChange={handleChange}
-                    onBlur={handleBlur}   
-                    value={values.facilityId}
-                    className={touched.facilityId && errors.name ? "error" : null}
-                    />   
-                    {touched.facilityId && errors.facilityId ? (
-                      <div className="error-message">{errors.facilityId}</div>
-                    ): null}
-                </Form.Group>
-                <Form.Group controlId="formfacilityLicenseNumber">
-                  <Form.Label>Facility License Number :</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="facilityLicenseNumber"
-                    placeholder="Facility License Number"
-                    onChange={handleChange}
-                    onBlur={handleBlur}   
-                    value={values.facilityLicenseNumber}
-                    className={touched.facilityLicenseNumber && errors.facilityLicenseNumber ? "error" : null}
-                    />   
-                    {touched.facilityLicenseNumber && errors.facilityLicenseNumber ? (
-                      <div className="error-message">{errors.facilityLicenseNumber}</div>
                     ): null}
                 </Form.Group>
                 <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
