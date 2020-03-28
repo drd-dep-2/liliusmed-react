@@ -1,20 +1,24 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
 import './App.css';
 import hospitals from './hospital.geojson'
 import {Nav, Navbar, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
 import AppRouter from './router.js'
-import RequestSuppliesModal from './Components/RequestSuppliesFormModal/RequestSuppliesFormModal'
+import RequestSuppliesModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
+import { ValidSessionContext } from './Context/ValidSessionContext';
+import LoginModal from './Components/LoginForm/LoginModal'
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
+  const[loginModalShow, setLoginModalShow] = useState(false)
   const [hospitalList, setHospitalList] = useState(null)
   const [hospitalSearch, setHospitalSearch] = useState("")
   const handleChangeValue = name => setHospitalSearch(name);
   const modalRef = useRef(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
+  const {fakeAuth} = useContext(ValidSessionContext)
   const getHospitaloptions = {
     method: "GET",
     
@@ -24,6 +28,7 @@ function App() {
   }
 
   useEffect(() => {
+    fakeAuth()
     const fetchHospitals =  () => {
         fetch(getHospitalsEndpoint, getHospitaloptions)
         .then(result =>
@@ -46,7 +51,8 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link onClick={() => setModalShow(true)}>Create a Hosptial Supply Request</Nav.Link>
+            <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>
+            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>
           </Nav>
           <div>
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
@@ -59,6 +65,12 @@ function App() {
             onHide={() => setModalShow(false)}
             hospitalList={hospitalList}
             
+          />  
+      </div>
+      <div>
+          <LoginModal
+            show={loginModalShow}
+            onHide={() => setLoginModalShow(false)}           
           />  
       </div>
        <Map></Map>
