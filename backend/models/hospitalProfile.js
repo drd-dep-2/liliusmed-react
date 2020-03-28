@@ -26,7 +26,8 @@ let hospitalSchema = Schema({
 	    	}
 		},
 		facilityId: String,
-		facilityLicenseNumber: String
+		facilityLicenseNumber: String,
+		hospitalType: String
 	},
 	security: {
 		hashed_password: String,
@@ -68,8 +69,12 @@ let hospitalSchema = Schema({
 		coronavirusPUI: Number,
 	},
 	bedData: {
-		bedCount: Number,
-		bedsInUse: Number
+		totalBedCount: Number,
+		totalBedsInUse: Number,
+		icuBedCount: Number,
+		icuBedsInUse: Number,
+		numberLicensedBeds: Number,
+		numberStaffedBeds: Number
 	},
 	personnel: {
 		totalStaff: Number,
