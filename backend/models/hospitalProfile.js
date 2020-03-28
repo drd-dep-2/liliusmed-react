@@ -75,7 +75,33 @@ let hospitalSchema = Schema({
 		totalStaff: Number,
 		totalDoctors: Number,
 		totalNurses: Number
-	}
+	},
+	burnRateData: [{
+		dayNumber: Number, 
+		dayDate: {
+			type: Date,
+			default: Date.now
+		},
+		ventilators: Number,
+				ventilators: Number,
+		gloves: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		faceShields: Number,
+		surgicalMasks: Number,
+		gowns: {
+			size1: Number,
+			size2: Number
+		},
+		respirators: {
+			rNorth7130: Number,
+			r3M8210: Number,
+			r3M1860: Number
+		},
+	}]
 }, { collection: 'Hospitals'});
 
 module.exports = hospitalSchema;
