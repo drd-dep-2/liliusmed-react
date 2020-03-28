@@ -1,19 +1,50 @@
 import Modal from 'react-bootstrap/Modal'
-import React, {useContext, useEffect, useState, createRef} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+
 import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
 //import theme from './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
     const [hospitalName, setHospitalName] = useState("")
-    //const [modalShow, setModalShow] = useState(props.modalShow);
+    const [formData, setFormData] = useState("")
+    const modalRef = useRef(null)
+    const registerHospitalEndpoint = "api/register/hospital";
+    const registerHospitalOptions = {
+      method: "POST",
+      
+      headers: {
+        "Content-Type": "application/json",     
+      },
+      body: JSON.stringify({
+        "name" : hospitalName,
+        "email" : formData.email,
+        "password" : formData.password,
+        "facilityId" : formData.facilityId,
+        "facilityLicenseNumber" : formData.facilityLicenseNumber,
+        "originalFips" : 23232,
+        "userFips" : 23232,
+        "check" : "white"
+      })
+    }
+
     useEffect(() => {
         {props.onHide()}
       }, [successfulSubmit]);
+
+    useEffect(() => {
+      fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
+        {
+          if(response.status === 200)
+          {
+            console.log("Successfully created company: " + hospitalName)
+          }
+        });
+    }, [formData]);
     const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
     return (
 
@@ -23,32 +54,28 @@ export default function RequestSuppliesModal(props) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            ref= {modalRef}
         >
             <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-                Request Hospital Supplies
+                Create Hospital Account
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <Formik
                 {...props}
-                initialValues={{ name:"", email:"", hospital:""}}
-                validationSchema={validationSchema}
-                onSubmit={(values, {setSubmitting}) => {
+                initialValues={{ name:"", password:"", email:"", facilityId:"", facilityLicenseNumber:""}}
+                //validationSchema={validationSchema}
+                onSubmit={(values, {setSubmitting,}) => {
                     // When button submits form and form is in the process of submitting, submit button is disabled
                     setSubmitting(true);
-
+                    //will trigger server call to create hospital 
+                    setFormData(values)
                     // Simulate submitting to database, shows us values submitted, resets form
-                setTimeout(() => {
-                    //alert(JSON.stringify(values, null, 2));
-                    alert(JSON.stringify(hospitalName, null, 2))
-                    //resetForm();
-                    //setSubmitting(false);
-                }, 500);
-                setSuccessfulSubmit(true); //set state variable to close modal on successful submit
+                  
+                    setSuccessfulSubmit(true); //set state variable to close modal on successful submit
                
                 }}
-                
             >
             {( {values,
                 errors,
@@ -57,33 +84,12 @@ export default function RequestSuppliesModal(props) {
                 handleBlur,
                 handleSubmit,
                 isSubmitting }) => (
-              <MYFORM onSubmit={handleSubmit} className="mx-auto">
-                {console.log(values)}
-                <Form.Group controlId="formName">
-                  <Form.Label>Name :</Form.Label>
-                  <Form.Control
-                    type="text"
-                    /* This name property is used to access the value of the form element via values.nameOfElement */
-                    name="name"
-                    placeholder="Full Name"
-                    /* Set onChange to handleChange */
-                    onChange={handleChange}
-                    /* Set onBlur to handleBlur */
-                    onBlur={handleBlur}
-                    /* Store the value of this input in values.name, make sure this is named the same as the name property on the form element */
-                    value={values.name}
-                    /* Check if the name field (this field) has been touched and if there is an error, if so add the .error class styles defined in the CSS (make the input box red) */
-                    className={touched.name && errors.name ? "error" : null}
-                    />
-                    {/* Applies the proper error message from validateSchema when the user has clicked the element and there is an error, also applies the .error-message CSS class for styling */}
-                    {touched.name && errors.name ? (
-                      <div className="error-message">{errors.name}</div>
-                    ): null}
-                </Form.Group>
+              <MYFORM onSubmit={handleSubmit} autoComplete="off" className="mx-auto">
                 <Form.Group autocomplete="off" controlId="formHospitalName">
                   <Form.Label>Hospital Name :</Form.Label>
                   <SearchForHospitalNames value={hospitalName} setValue={handleChangeValue} hospitalList={props.hospitalList}/>
                 </Form.Group>
+                
                 <Form.Group controlId="formEmail">
                   <Form.Label>Email :</Form.Label>
                   <Form.Control
@@ -99,7 +105,50 @@ export default function RequestSuppliesModal(props) {
                       <div className="error-message">{errors.email}</div>
                     ): null}
                 </Form.Group>
-              
+                <Form.Group controlId="formPassword">
+                <Form.Label>Password :</Form.Label>
+                  <Form.Control
+                      type="password"
+                      name="password"
+                      placeholder="Email"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.password}
+                    />
+                      {touched.password && errors.password ? (
+                      <div className="error-message">{errors.password}</div>
+                    ): null}
+                </Form.Group>
+                <Form.Group controlId="formFacilityId">
+                  <Form.Label>Facility ID :</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="facilityId"
+                    placeholder="Facility ID"
+                    onChange={handleChange}
+                    onBlur={handleBlur}   
+                    value={values.facilityId}
+                    className={touched.facilityId && errors.name ? "error" : null}
+                    />   
+                    {touched.facilityId && errors.facilityId ? (
+                      <div className="error-message">{errors.facilityId}</div>
+                    ): null}
+                </Form.Group>
+                <Form.Group controlId="formfacilityLicenseNumber">
+                  <Form.Label>Facility License Number :</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="facilityLicenseNumber"
+                    placeholder="Facility License Number"
+                    onChange={handleChange}
+                    onBlur={handleBlur}   
+                    value={values.facilityLicenseNumber}
+                    className={touched.facilityLicenseNumber && errors.facilityLicenseNumber ? "error" : null}
+                    />   
+                    {touched.facilityLicenseNumber && errors.facilityLicenseNumber ? (
+                      <div className="error-message">{errors.facilityLicenseNumber}</div>
+                    ): null}
+                </Form.Group>
                 <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
                   Submit
                 </BUTTON>
