@@ -46,7 +46,8 @@ let hospitalSchema = Schema({
 		},
 	},
 	data: {
-		ventilators: Number,
+		ventilatorsAvailable: Number,
+		ventilatorsInUse: Number,
 		gloves: {
 			small: Number,
 			medium: Number,
@@ -56,13 +57,14 @@ let hospitalSchema = Schema({
 		faceShields: Number,
 		surgicalMasks: Number,
 		gowns: {
-			size1: Number,
-			size2: Number
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
 		},
 		respirators: {
-			rNorth7130: Number,
-			r3M8210: Number,
-			r3M1860: Number
+			n95: Number,
+			papr: Number
 		},
 		coronavirusTests: Number,
 		coronavirusPatients: Number,
@@ -76,10 +78,18 @@ let hospitalSchema = Schema({
 		numberLicensedBeds: Number,
 		numberStaffedBeds: Number
 	},
-	personnel: {
+	staff: {
 		totalStaff: Number,
-		totalDoctors: Number,
-		totalNurses: Number
+		doctors: {
+			onCall: Number,
+			onShift: Number,
+			total: Number
+		},
+		nurses: {
+			onCall: Number,
+			onShift: Number,
+			total: Number
+		}
 	},
 	burnRateData: [{
 		dayNumber: Number, 
