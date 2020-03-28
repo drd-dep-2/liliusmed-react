@@ -10,6 +10,9 @@ import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchFo
 function App() {
   const [modalShow, setModalShow] = useState(false);
   const [hospitalList, setHospitalList] = useState(null)
+  const [hospitalSearch, setHospitalSearch] = useState("")
+  const handleChangeValue = name => setHospitalSearch(name);
+  const modalRef = useRef(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
   const getHospitaloptions = {
@@ -30,7 +33,6 @@ function App() {
         then(data => 
           {
             setHospitalList(data)
-            console.log(data)
           })  
         };
         fetchHospitals();
@@ -47,7 +49,7 @@ function App() {
             <Nav.Link onClick={() => setModalShow(true)}>Create a Hosptial Supply Request</Nav.Link>
           </Nav>
           <div>
-            <SearchForHospitalNames hospitalList={hospitalList} className="mr-sm-2" />
+            <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
           </div>
         </Navbar.Collapse>
       </Navbar>
@@ -56,6 +58,7 @@ function App() {
             show={modalShow}
             onHide={() => setModalShow(false)}
             hospitalList={hospitalList}
+            
           />  
       </div>
        <Map></Map>

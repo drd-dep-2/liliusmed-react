@@ -22,7 +22,7 @@ router.get('/register', (req, res) => {
 
 // Register Form Submission - POST
 router.post('/register/hospital', (req, res) => {
-
+	console.log("Egg")
 	const email = req.body.email;
 	const password = req.body.password;
 	const facilityId = req.body.facilityId;
@@ -30,7 +30,7 @@ router.post('/register/hospital', (req, res) => {
 	const originalFips = req.body.originalFips;
 	const userFips = req.body.userFips;
 	const hospitalName = req.body.name;
-
+	
 	let formCheck = req.body.check;
 	let upperFormCheck = formCheck.toString().toUpperCase();
 
@@ -61,7 +61,9 @@ router.post('/register/hospital', (req, res) => {
 				} else {
 					//console.log(err);
 					res.status(500).json({
-						message: err.message
+						message: err.message,
+						line : err.line
+
 					});
 				}
 			});
