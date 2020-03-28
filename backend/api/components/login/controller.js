@@ -5,11 +5,11 @@
  const mongoose = require('../../../database/hospitals');
  const profile = require('../../../models/hospitalProfile');
  // Schema
- const Hospital = module.exports = mongoose.model('hospitals', profile);
+ const Hospital = module.exports = mongoose.model('Hospitals', profile);
 
 module.exports.login = async(email, projection) => {
 	const docs = await Hospital.find({
-		'hospitalInfo.email[0]': email,
+		'hospitalInfo.email': email,
 	}, projection).limit(1).exec();
 
 	// Error Handling - Model Return
