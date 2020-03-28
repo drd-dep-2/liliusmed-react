@@ -26,7 +26,8 @@ let hospitalSchema = Schema({
 	    	}
 		},
 		facilityId: String,
-		facilityLicenseNumber: String
+		facilityLicenseNumber: String,
+		hospitalType: String
 	},
 	security: {
 		hashed_password: String,
@@ -45,7 +46,59 @@ let hospitalSchema = Schema({
 		},
 	},
 	data: {
+		ventilatorsAvailable: Number,
+		ventilatorsInUse: Number,
+		gloves: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		faceShields: Number,
+		surgicalMasks: Number,
+		gowns: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		respirators: {
+			n95: Number,
+			papr: Number
+		},
+		coronavirusTests: Number,
+		coronavirusPatients: Number,
+		coronavirusPUI: Number,
+	},
+	bedData: {
+		totalBedCount: Number,
+		totalBedsInUse: Number,
+		icuBedCount: Number,
+		icuBedsInUse: Number,
+		numberLicensedBeds: Number,
+		numberStaffedBeds: Number
+	},
+	staff: {
+		totalStaff: Number,
+		doctors: {
+			onCall: Number,
+			onShift: Number,
+			total: Number
+		},
+		nurses: {
+			onCall: Number,
+			onShift: Number,
+			total: Number
+		}
+	},
+	burnRateData: [{
+		dayNumber: Number, 
+		dayDate: {
+			type: Date,
+			default: Date.now
+		},
 		ventilators: Number,
+				ventilators: Number,
 		gloves: {
 			small: Number,
 			medium: Number,
@@ -63,19 +116,7 @@ let hospitalSchema = Schema({
 			r3M8210: Number,
 			r3M1860: Number
 		},
-		coronavirusTests: Number,
-		coronavirusPatients: Number,
-		coronavirusPUI: Number,
-	},
-	bedData: {
-		bedCount: Number,
-		bedsInUse: Number
-	},
-	personnel: {
-		totalStaff: Number,
-		totalDoctors: Number,
-		totalNurses: Number
-	}
+	}]
 }, { collection: 'Hospitals'});
 
 module.exports = hospitalSchema;

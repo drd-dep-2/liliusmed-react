@@ -4,8 +4,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const config = require('../../../config/api_config');
+const cryptoRandomString = require('crypto-random-string');
 // Login & Security
 const Hospital = require('./controller');
+const Session = require('../session/controller');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 router.use(require('cookie-parser')());
@@ -19,11 +21,12 @@ router.get('/login', (req, res) => {
 // Login Form Submission
 router.post('/login/authenticate', (req, res) => {
 
-
-	res.cookie('authCookie', config.app.secret, {
+	let randomString = cryptoRandomString({ length: 16, type: 'url-safe'});
+	res.cookie('sessionId', randomString, {
 		maxAge: 900000,
 		httpOnly: true
 	});
+
 	// Set Form Body Fields
 	let email = req.body.email;
 	let password = req.body.password;
@@ -37,11 +40,18 @@ router.post('/login/authenticate', (req, res) => {
 				if (err) {
 					res.status(401).json(err);
 				} else if (val == true) {
-					const token = jwt.sign({ email }, config.app.secret);
-					req.cookies.auth = token;
-					console.log(token);
-					console.log(req.cookies.auth);
-					res.redirect('/api/dashboard/' + email);
+					Session.setSession(email, randomString)
+						.then(result => {
+							console.log(result);
+							res.sendStatus(200);
+						})
+						.catch(err => {
+							console.log(err);
+							res.status(500).json({
+								message: err.message
+							});
+						})
+					
 				} else {
 					res.redirect('/api/login');
 				}
@@ -49,8 +59,6 @@ router.post('/login/authenticate', (req, res) => {
 		})
 		.catch(err => {
 			res.status(500).json({
-				code: 500,
-				note: 'Internal Server Error',
 				message: err.message
 			});
 		});
