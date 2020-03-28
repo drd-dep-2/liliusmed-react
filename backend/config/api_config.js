@@ -16,10 +16,6 @@ const config = {
 		hospitals: {
 			productionUri: process.env.MONGO_HOSPITALS_URI_PRODUCTION,
 			devUri: process.env.MONGO_HOSPITALS_URI_DEV
-		},
-		sessions: {
-			productionUri: process.env.MONGO_SESSIONS_URI_PRODUCTION,
-			devUri: process.env.MONGO_SESSIONS_URI_DEV
 		}
 	}
 };
