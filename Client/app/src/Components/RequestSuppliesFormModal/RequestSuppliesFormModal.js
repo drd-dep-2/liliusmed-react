@@ -110,7 +110,7 @@ export default function RequestSuppliesModal(props) {
                   <Form.Control
                       type="password"
                       name="password"
-                      placeholder="Email"
+                      placeholder="Password"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.password}

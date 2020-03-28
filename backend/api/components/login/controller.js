@@ -16,7 +16,7 @@ module.exports.login = async(email, projection) => {
 	if (docs.length === 0) {
 		throw {
 			status: 404,
-			message: 'Business Not Found'
+			message: 'Hospital Not Found'
 		};
 	}
 	return docs[0];
