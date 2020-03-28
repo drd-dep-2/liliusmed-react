@@ -4,6 +4,7 @@ import {Button, FormControl, InputGroup} from 'react-bootstrap';
 
 const SearchForHospitalNames = (props) => {
     const [display, setDisplay] = useState(false);
+    
     // const [search, setSearch] = useState("");
     const wrapperRef = useRef(null);
 
@@ -30,7 +31,7 @@ const SearchForHospitalNames = (props) => {
 
     return (
     <div className="hospitalSearchBox" ref={wrapperRef}>
-        <InputGroup autocomplete="off" size="med">   
+        <InputGroup autoComplete="off" size="med">   
          <FormControl aria-label="Large" 
             aria-describedby="inputGroup-sizing-lg"
             className="searchBar" 
