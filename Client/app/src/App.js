@@ -33,7 +33,6 @@ function App() {
         then(data => 
           {
             setHospitalList(data)
-            console.log(data)
           })  
         };
         fetchHospitals();

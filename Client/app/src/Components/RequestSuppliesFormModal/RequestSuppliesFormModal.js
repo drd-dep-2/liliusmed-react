@@ -31,20 +31,17 @@ export default function RequestSuppliesModal(props) {
         "check" : "white"
       })
     }
-    useEffect(() => {
-      console.log("HOPITAL NAME: " + hospitalName)
-    }, [hospitalName]);
+
     useEffect(() => {
         {props.onHide()}
       }, [successfulSubmit]);
 
     useEffect(() => {
-      console.log("egg" + JSON.stringify(registerHospitalOptions.body))
       fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
         {
           if(response.status === 200)
           {
-            console.log("Successfully created company: " + formData.hospitalName)
+            console.log("Successfully created company: " + hospitalName)
           }
         });
     }, [formData]);
@@ -68,14 +65,12 @@ export default function RequestSuppliesModal(props) {
             <Formik
                 {...props}
                 initialValues={{ name:"", password:"", email:"", facilityId:"", facilityLicenseNumber:""}}
-                validationSchema={validationSchema}
-                onSubmit={(values, {setSubmitting, setFormData}) => {
-                  console.log("ahhhh")
+                //validationSchema={validationSchema}
+                onSubmit={(values, {setSubmitting,}) => {
                     // When button submits form and form is in the process of submitting, submit button is disabled
                     setSubmitting(true);
-                    console.log(values)
                     //will trigger server call to create hospital 
-                    //setFormData(values)
+                    setFormData(values)
                     // Simulate submitting to database, shows us values submitted, resets form
                   
                     setSuccessfulSubmit(true); //set state variable to close modal on successful submit
