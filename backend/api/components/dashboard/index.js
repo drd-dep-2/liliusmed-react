@@ -9,23 +9,20 @@ const path = require('path');
 // Controller
 const Hospital = require('./controller');
 
-
-function isAuthenticated(req, res, next) {
-
-	let cookie = req.cookie.auth;
+router.use((req, res, next) => {
+	let cookie = req.cookies.authCookie;
 	console.log(cookie);
 
-	if (req.user.authenticated) {
-		return next();
-	} else {
+	if (cookie === undefined) {
 		res.redirect('/');
+	} else {
+		next();
 	}
-}
+});
 
 // Get Dashboard
-router.get('/dashboard/:email', isAuthenticated, (req, res) => {
+router.get('/dashboard/:email', (req, res) => {
 	let email = req.params.email;
-	let cookie = req.cookie.auth;
 
 	console.log(cookie);
 	Hospital.findHospitalByEmail(email)

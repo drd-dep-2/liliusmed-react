@@ -19,6 +19,11 @@ router.get('/login', (req, res) => {
 // Login Form Submission
 router.post('/login/authenticate', (req, res) => {
 
+
+	res.cookie('authCookie', config.app.secret, {
+		maxAge: 900000,
+		httpOnly: true
+	});
 	// Set Form Body Fields
 	let email = req.body.email;
 	let password = req.body.password;
