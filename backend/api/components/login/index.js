@@ -13,10 +13,7 @@ const bcryptjs = require('bcryptjs');
 router.use(require('cookie-parser')());
 
 
-// Render Page
-router.get('/login', (req, res) => {
-	res.sendStatus(200);
-});
+
 
 // Login Form Submission
 router.post('/login/authenticate', (req, res) => {
@@ -34,7 +31,16 @@ router.post('/login/authenticate', (req, res) => {
 	// Login Controller
 	Hospital.login(email, password, randomString)
 		.then(result => {
-			console.log(result);
+			if(result == 200)
+			{
+			
+				res.sendStatus(200)
+			}
+			else{
+				res.sendStatus(401)
+			}
+			
+			//res.sendStatus(200)
 		})
 		.catch(err => {
 			console.log(err);

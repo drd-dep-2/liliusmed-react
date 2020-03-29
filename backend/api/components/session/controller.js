@@ -17,8 +17,6 @@ module.exports.setSession = async(email, randomString) => {
 			console.log(err);
 		} else {
 			console.log('Success!');
-			console.log(session);
 		}
 	});
-
 }
