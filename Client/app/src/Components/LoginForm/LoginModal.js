@@ -6,6 +6,7 @@ import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
+import AlternativeAuthButton from '../AlternativeAuthButton';
 //import theme from './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {
@@ -117,8 +118,16 @@ export default function RequestSuppliesModal(props) {
               </MYFORM>
             )}
             </Formik>
-                  </Modal.Body>
-              </Modal>
+            <AlternativeAuthButton
+              label="Don't have an account yet?"
+              buttonText="Sign up"
+              onClick={() => {
+                props.onHide();
+                props.onOpenRegistrationModal();
+              }}
+            />
+            </Modal.Body>
+            </Modal>
           );
   }
 
