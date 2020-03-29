@@ -24,7 +24,7 @@ module.exports = (app) => {
 	*/
 
 	// Add Routes
-	let routes = [register, logout, login, verify/*, settings, support, editBasicInfo, map, updateVents, updateBeds, updatePatients, updatePersonnel, updatePpe, updatePpeRespirators*/];
+	let routes = [register, logout, login, verify, dashboard/*, settings, support, editBasicInfo, map, updateVents, updateBeds, updatePatients, updatePersonnel, updatePpe, updatePpeRespirators*/];
 
 	app.use('/api', routes);
 }

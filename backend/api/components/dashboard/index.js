@@ -9,35 +9,25 @@ const path = require('path');
 // Controller
 const Hospital = require('./controller');
 
-router.use((req, res, next) => {
-	let cookie = req.cookies.authCookie;
-	console.log(cookie);
-
-	if (cookie === undefined) {
-		res.redirect('/');
-	} else {
-		next();
-	}
-});
 
 // Get Dashboard
-router.get('/dashboard/:email', (req, res) => {
-	let email = req.params.email;
-
-	console.log(cookie);
-	Hospital.findHospitalByEmail(email)
-		.then(result => {
-			res.status(200).json({
-				email: email
+router.get('/dashboard', (req, res) => {
+	let cookie = req.cookies.sessionId;
+	if (!cookie) {
+		res.sendStatus(401);
+	} else {
+		Hospital.checkAndRender(cookie)
+			.then(result => {
+				if (result == 401) {
+					res.sendStatus(401);
+				} else {
+					res.send(result);
+				}
 			})
-		})
-		.catch(err => {
-			res.status(500).json({
-				code: 500,
-				note: 'Internal Server Error',
-				message: err.message
+			.catch(err => {
+				console.log(err);
 			});
-		});
+	}
 });
 
 module.exports = router;
