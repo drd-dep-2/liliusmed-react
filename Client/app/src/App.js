@@ -92,7 +92,7 @@ function App() {
           />  
       </div>
        <Map></Map>          
-        <Modal size="lg" show={hospitalModal} onHide={handleCloseHospitalModal}>
+        <Modal size="modal-90w" show={hospitalModal} onHide={handleCloseHospitalModal}>
           <HospitalModal />
         </Modal>
     </div>
