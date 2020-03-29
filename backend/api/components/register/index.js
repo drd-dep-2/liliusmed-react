@@ -15,9 +15,13 @@ router.get('/register', (req, res) => {
 			res.send(result);
 		})
 		.catch(err => {
-			console.log(err);
+			if (err.status) {
+				res.status(err.status).json({
+					message: err.message
+				});
+			} else {
+				res.sendStatus(500);				}
 		});
-	//res.send('API Functional');
 });
 
 // Register Form Submission - POST
@@ -51,7 +55,7 @@ router.post('/register/hospital', (req, res) => {
 	} else if (userFips == originalFips) {
 		Hospital.registerHospital(info, true)
 			.then(result => {
-				res.redirect('/api/login');
+				res.sendStatus(200);
 			})
 			.catch(err => {
 				if (err.status) {
@@ -59,13 +63,7 @@ router.post('/register/hospital', (req, res) => {
 						message: err.message
 					});
 				} else {
-					//console.log(err);
-					res.status(500).json({
-						message: err.message,
-						line : err.line
-
-					});
-				}
+					res.sendStatus(500);				}
 			});
 	} else {
 		Hospital.registerHospital(info, false)
@@ -78,11 +76,7 @@ router.post('/register/hospital', (req, res) => {
 						message: err.message
 					});
 				} else {
-					//console.log(err);
-					res.status(500).json({
-						message: err.message
-					});
-				}
+					res.sendStatus(500);				}
 			});
 	}
 });
