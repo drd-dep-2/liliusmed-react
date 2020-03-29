@@ -15,7 +15,7 @@ router.use(require('cookie-parser')());
 
 // Render Page
 router.get('/login', (req, res) => {
-	res.send(200);
+	res.sendStatus(200);
 });
 
 // Login Form Submission
@@ -32,35 +32,12 @@ router.post('/login/authenticate', (req, res) => {
 	let password = req.body.password;
 
 	// Login Controller
-	Hospital.login(email)
-		.then(async(result) => {
-			let hospital = result;
-			let origPassword = hospital.security.hashed_password[0];
-			await bcryptjs.compare(password, origPassword, (err, val) => {
-				if (err) {
-					res.status(401).json(err);
-				} else if (val == true) {
-					Session.setSession(email, randomString)
-						.then(result => {
-							console.log(result);
-							res.sendStatus(200);
-						})
-						.catch(err => {
-							console.log(err);
-							res.status(500).json({
-								message: err.message
-							});
-						})
-					
-				} else {
-					res.redirect('/api/login');
-				}
-			});
+	Hospital.login(email, password, randomString)
+		.then(result => {
+			console.log(result);
 		})
 		.catch(err => {
-			res.status(500).json({
-				message: err.message
-			});
+			console.log(err);
 		});
 });
 
