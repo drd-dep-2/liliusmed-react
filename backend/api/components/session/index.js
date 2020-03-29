@@ -29,3 +29,5 @@ router.post('/verifySession', (req, res) => {
 			});
 	}
 });
+
+module.exports = router;
