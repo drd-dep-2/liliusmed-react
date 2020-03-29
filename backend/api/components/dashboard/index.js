@@ -8,7 +8,7 @@ const path = require('path');
 
 // Controller
 const Hospital = require('./controller');
-
+/*
 router.use((req, res, next) => {
 	let cookie = req.cookies.authCookie;
 	console.log(cookie);
@@ -18,7 +18,7 @@ router.use((req, res, next) => {
 	} else {
 		next();
 	}
-});
+});*/
 
 // Get Dashboard
 router.get('/dashboard/:email', (req, res) => {
@@ -38,6 +38,17 @@ router.get('/dashboard/:email', (req, res) => {
 				message: err.message
 			});
 		});
+});
+
+//Get Hospital Data for search by Hosptial Name
+router.post('/dashboard/getHospitalData', async(req, res) => {
+
+	
+	let hospitalName = req.body.hospitalName;
+	let sessionId = req.cookies.sessionId;
+	
+	const hospitalObj =  await Hospital.getHospitalByName(sessionId, hospitalName)
+	res.json(hospitalObj)
 });
 
 module.exports = router;
