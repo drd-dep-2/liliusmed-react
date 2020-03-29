@@ -7,7 +7,7 @@ const cardStyles = {
   hospitalCard:{
     backgroundColor: '#373540',
     color: '#fff',
-    margin: "10px"
+    margin: "18px"
   },
   card:{
     backgroundColor: '#373540', 
@@ -114,13 +114,52 @@ const hospitalData = {
         }
       ]
     },
+    {
+      status: 'Item 4',
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
+    {
+      status: 'Item 5',
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
+    {
+      status: 'Item 6',
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
   ]
 }
 
 export default function CenteredGrid() {
 
   return (
-    <Container>
+    <Container style={{padding: "20px 0px"}}>
       <Row>
         <Col>
           <Card style={cardStyles.hospitalCard}>
@@ -149,7 +188,7 @@ export default function CenteredGrid() {
         <h6>Personal Protective Equipment</h6>
       </Row>
       <Container fluid>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-space-around">
           {
             hospitalData.PPE.map((item, index)=>
             <Col xs={4} key={index}>
@@ -185,7 +224,7 @@ function CardItem(props){
 
 function HospitalCardItem(props){
   return(
-    <Container>
+    <Container style={{padding: "10px"}}>
       <Row>
         <Col>
         <h4>Name of hospitalData</h4>
