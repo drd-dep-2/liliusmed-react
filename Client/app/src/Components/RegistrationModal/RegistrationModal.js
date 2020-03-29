@@ -37,14 +37,17 @@ export default function RequestSuppliesModal(props) {
       }, [successfulSubmit]);
 
     useEffect(() => {
-      fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
-        {
-          if(response.status === 200)
+      if(props.show) {
+        fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
           {
-            console.log("Successfully created company: " + hospitalName)
+            if(response.status === 200)
+            {
+              console.log("Successfully created company: " + hospitalName)
+            }
           }
-        });
-    }, [formData]);
+        );
+      };
+    }, [formData, props.show]);
     const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
     return (
 

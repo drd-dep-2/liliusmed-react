@@ -32,14 +32,16 @@ export default function RequestSuppliesModal(props) {
       }, [successfulSubmit]);
 
     useEffect(() => {
-      fetch(loginEndpoint, loginOptions).then(response => 
-        {
-          if(response.status === 200)
+      if (props.show) {
+        fetch(loginEndpoint, loginOptions).then(response => 
           {
-            console.log("Successfully created company: " + hospitalName)
-          }
-        });
-    }, [formData]);
+            if(response.status === 200)
+            {
+              console.log("Successfully created company: " + hospitalName)
+            }
+          });
+        }
+    }, [formData, props.show]);
 
     return (
 
