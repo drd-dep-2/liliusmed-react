@@ -13,18 +13,12 @@ module.exports = (app) => {
 	//let support = require('./components/support/index');
 	
 	// Edit Routes
-	/*
-	let editBasicInfo = require('./components/edit/editBasicInfo');
-	let updateBeds = require('./components/edit/updateBeds');
-	let updateVents = require('./components/edit/updateVents');
-	let updatePatients = require('./components/edit/updatePatients');
-	let updatePersonnel = require('./components/edit/updatePersonnel');
-	let updatePpe = require('./components/edit/updatePpe');
-	let updatePpeRespirators = require('./components/edit/updatePpeRespirators');
-	*/
+	
+	let editData = require('./components/edit/editData');
+
 
 	// Add Routes
-	let routes = [register, logout, login, verify, dashboard/*, settings, support, editBasicInfo, map, updateVents, updateBeds, updatePatients, updatePersonnel, updatePpe, updatePpeRespirators*/];
+	let routes = [register, logout, login, verify, dashboard, editData/*, settings, support*/];
 
 	app.use('/api', routes);
 }
