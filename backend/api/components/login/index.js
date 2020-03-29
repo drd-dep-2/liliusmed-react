@@ -31,19 +31,20 @@ router.post('/login/authenticate', (req, res) => {
 	// Login Controller
 	Hospital.login(email, password, randomString)
 		.then(result => {
-			if(result == 200)
-			{
-			
-				res.sendStatus(200)
+			if(result == 200) {
+				res.sendStatus(200);
 			}
-			else{
-				res.sendStatus(401)
+			else {
+				res.sendStatus(401);
 			}
-			
-			//res.sendStatus(200)
 		})
 		.catch(err => {
-			console.log(err);
+			if (err.status) {
+				res.status(err.status).json({
+					message: err.message
+				});
+			} else {
+				res.sendStatus(500);				}
 		});
 });
 

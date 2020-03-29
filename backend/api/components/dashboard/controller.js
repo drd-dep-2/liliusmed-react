@@ -18,13 +18,33 @@ const Session = module.exports = mongooseSession.model('Sessions', sessionModel)
 
 
 module.exports.checkAndRender = async(sessionId) => {
-	console.log('here');
+
 	let session = await Session.findOne({ 'sessionId': sessionId });
 	if (session == null) {
 		return 401;
 	} else {
 		let email = session.email;
 		let hospital = await Hospital.findOne({ 'hospitalInfo.email': email }).select('-security');
+		return hospital;
+	}
+}
+
+module.exports.getAllHospitalNames = async(sessionId) => {
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		let names = await Hospital.find({}).select('hospitalInfo.name');
+		return names;
+	}
+}
+
+module.exports.getHospitalFromSearch = async(sessionId, email) => {
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		let hospital = await Hospital.findOne({'hospitalInfo.email': email }).select('-security');
 		return hospital;
 	}
 }
