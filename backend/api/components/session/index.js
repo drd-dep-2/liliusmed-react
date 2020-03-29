@@ -8,24 +8,21 @@ router.use(require('cookie-parser')());
 
 router.post('/verifySession', (req, res) => {
 	let cookie = req.cookies.sessionId;
-
+	
+	console.log(cookie);
 	if (!cookie) {
-		res.sendStatus(401).json({
-			message: 'Not Found'
-		});
+		res.sendStatus(401);
 	} else {
 		Session.verifySession(cookie)
 			.then(result => {
-				if (result == 200) {
-					res.sendStatus(200);
-				} else {
+				if (result == 401) {
 					res.sendStatus(401);
+				} else {
+					res.sendStatus(200);
 				}
 			})
 			.catch(err => {
-				res.sendStatus(500).json({
-					message: err.message
-				});
+				console.log(err);
 			});
 	}
 });

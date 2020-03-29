@@ -7,12 +7,11 @@ const sessionModel = require('../../../models/hospitalSession');
 const Session = module.exports = mongoose.model('Sessions', sessionModel);
 
 module.exports.verifySession = async(sessionId) => {
-	
-	await Session.find({ 'sessionId': sessionId }, (err, result) => {
-		if (!result) {
-			return 302;
-		} else {
-			return 200;
-		}
-	});
+
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		return 200;
+	}
 }
