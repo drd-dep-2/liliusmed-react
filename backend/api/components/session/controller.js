@@ -11,7 +11,7 @@ module.exports.verifySession = async(sessionId) => {
 	await Session.find({ 'sessionId': sessionId }, (err, result) => {
 		if (!result) {
 			return 302;
-		} else if (result == 'Ok') {
+		} else {
 			return 200;
 		}
 	});
