@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-<<<<<<< HEAD
 import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
 const getHospitalInfoEndpoint = "/dashboard/getHospitalData";
 const getHospitalInfoOptions ={
@@ -14,32 +13,6 @@ const getHospitalInfoOptions ={
     
     "hospitalName": "Norwood Hospital"
   })
-=======
-import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
-//Icon Images
-import bedWhite from "../../Icons/bedWhite.png";
-import faceshieldWhite from "../../Icons/faceshieldWhite.png"
-import glovesWhite from "../../Icons/glovesWhite.png"
-import hazardClothingWhite from "../../Icons/hazardClothingWhite.png"
-import maskWhite from "../../Icons/maskWhite.png"
-import medicalDeliveryWhite from "../../Icons/medicalDeliveryWhite.png"
-import medicalPersonWhite from "../../Icons/medicalPersonWhite.png"
-import personWithVirusesWhite from "../../Icons/personWithVirusesWhite.png"
-import respiratorWhite from "../../Icons/respiratorWhite.png"
-import ventilatorWhite from "../../Icons/ventilatorWhite.png"
-
-const covidIcons = {
-  "bedWhite": bedWhite,
-  "faceshieldWhite": faceshieldWhite,
-  "glovesWhite": glovesWhite,
-  "hazardClothingWhite": hazardClothingWhite,
-  "maskWhite": maskWhite,
-  "medicalDeliveryWhite": medicalDeliveryWhite,
-  "medicalPersonWhite": medicalPersonWhite,
-  "personWithVirusesWhite": personWithVirusesWhite,
-  "respiratorWhite": respiratorWhite,
-  "ventilatorWhite": ventilatorWhite
->>>>>>> origin/development
 }
 const cardStyles = {
   hospitalCard:{
