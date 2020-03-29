@@ -6,19 +6,12 @@ const sessionModel = require('../../../models/hospitalSession');
 // Schema
 const Session = module.exports = mongoose.model('Sessions', sessionModel);
 
-module.exports.setSession = async(email, randomString) => {
-	let session = {
-		sessionId: randomString,
-		email: email
-	};
+module.exports.verifySession = async(sessionId) => {
 
-	Session.create(session, (err, session) => {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log('Success!');
-			console.log(session);
-		}
-	});
-
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		return 200;
+	}
 }

@@ -70,14 +70,20 @@ function App() {
             show={modalShow}
             onHide={() => setModalShow(false)}
             hospitalList={hospitalList}
-            
+            onOpenLogin
           />  
       </div>
       <div>
           <LoginModal
             show={loginModalShow}
+<<<<<<< HEAD
             onHide={() => setLoginModalShow(false)}
           />  
+=======
+            onHide={() => setLoginModalShow(false)}    
+            onOpenRegistrationModal={() => setModalShow(true)}       
+          />
+>>>>>>> 12ea40670bd89a507ae077f9af125f46a09cab56
       </div>
        <Map></Map>          
         <Modal size="lg" show={hospitalModal} onHide={handleCloseHospitalModal}>

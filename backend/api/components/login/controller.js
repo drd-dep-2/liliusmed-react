@@ -17,48 +17,30 @@ const sessionModel = require('../../../models/hospitalSession');
 const Session = module.exports = sesM.model('Sessions', sessionModel);
 
 
-module.exports.login = async(email, projection) => {
-	const docs = await Hospital.find({
-		'hospitalInfo.email': email,
-	}, projection).limit(1).exec();
-
-	// Error Handling - Model Return
-	if (docs.length === 0) {
-		throw {
-			status: 404,
-			message: 'Hospital Not Found'
-		};
-	}
-	return docs[0];
-}
-
 module.exports.login = async(email, password, randomString, projection) => {
 	const docs = await Hospital.find({
 		'hospitalInfo.email': email,
 	}, projection).limit(1).exec();
-
+	
 	// Error Handling - Model Return
 	if (docs.length === 0) {
-		throw {
-			status: 404,
-			message: 'Hospital Not Found'
-		};
+		return 401
 	}
 	let hospital = docs[0];
 	let session = { email: email, sessionId: randomString };
-
-	await bcryptjs.compare(password, hospital.security.hashed_password, (err, val) => {
-		if (err) {
-			console.log(err);
-		} else if (val == true) {
-			
-			Session.create(session, (err, session) => {
-				if (err) {
-					console.log(err);
-				} else {
-					console.log('Success!');
-				}
-			});
-		}
-	});
+	
+	 const test = await bcryptjs.compare(password, hospital.security.hashed_password);
+	 if(test == true)
+	 {
+		await Session.deleteMany({"email" : email}) //delete sessions if they already exist
+		await Session.create(session, (err, session) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log("Success!");
+				
+			}
+		})
+		 return 200
+	 }
 }

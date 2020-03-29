@@ -6,6 +6,7 @@ import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import SearchForHospitalNames from '../SearchForHospitalNames/SearchForHostpitalNames';
+import AlternativeAuthButton from '../AlternativeAuthButton';
 //import theme from './RequestSuppliesFormModal.css';
 
 export default function RequestSuppliesModal(props) {

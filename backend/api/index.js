@@ -8,7 +8,7 @@ module.exports = (app) => {
 	let register = require('./components/register/index');
 	let logout = require('./components/logout/index');
 	let dashboard = require('./components/dashboard/index');
-	
+	let verify = require('./components/session/index');
 	//let settings = require('./components/settings/index');
 	//let support = require('./components/support/index');
 	
@@ -24,7 +24,7 @@ module.exports = (app) => {
 	*/
 
 	// Add Routes
-	let routes = [register, logout, login/*, settings, support, editBasicInfo, map, updateVents, updateBeds, updatePatients, updatePersonnel, updatePpe, updatePpeRespirators*/];
+	let routes = [register, logout, login, verify/*, settings, support, editBasicInfo, map, updateVents, updateBeds, updatePatients, updatePersonnel, updatePpe, updatePpeRespirators*/];
 
 	app.use('/api', routes);
 }
