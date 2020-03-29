@@ -10,7 +10,7 @@ router.post('/verifySession', (req, res) => {
 	let cookie = req.cookies.sessionId;
 
 	if (!cookie) {
-		res.sendStatus(302).json({
+		res.sendStatus(401).json({
 			message: 'Not Found'
 		});
 	} else {
@@ -19,7 +19,7 @@ router.post('/verifySession', (req, res) => {
 				if (result == 200) {
 					res.sendStatus(200);
 				} else {
-					res.sendStatus(302);
+					res.sendStatus(401);
 				}
 			})
 			.catch(err => {
