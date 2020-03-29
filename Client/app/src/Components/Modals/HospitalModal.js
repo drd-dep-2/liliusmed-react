@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+<<<<<<< HEAD
 import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
 const getHospitalInfoEndpoint = "/dashboard/getHospitalData";
 const getHospitalInfoOptions ={
@@ -13,19 +14,49 @@ const getHospitalInfoOptions ={
     
     "hospitalName": "Norwood Hospital"
   })
+=======
+import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
+//Icon Images
+import bedWhite from "../../Icons/bedWhite.png";
+import faceshieldWhite from "../../Icons/faceshieldWhite.png"
+import glovesWhite from "../../Icons/glovesWhite.png"
+import hazardClothingWhite from "../../Icons/hazardClothingWhite.png"
+import maskWhite from "../../Icons/maskWhite.png"
+import medicalDeliveryWhite from "../../Icons/medicalDeliveryWhite.png"
+import medicalPersonWhite from "../../Icons/medicalPersonWhite.png"
+import personWithVirusesWhite from "../../Icons/personWithVirusesWhite.png"
+import respiratorWhite from "../../Icons/respiratorWhite.png"
+import ventilatorWhite from "../../Icons/ventilatorWhite.png"
+
+const covidIcons = {
+  "bedWhite": bedWhite,
+  "faceshieldWhite": faceshieldWhite,
+  "glovesWhite": glovesWhite,
+  "hazardClothingWhite": hazardClothingWhite,
+  "maskWhite": maskWhite,
+  "medicalDeliveryWhite": medicalDeliveryWhite,
+  "medicalPersonWhite": medicalPersonWhite,
+  "personWithVirusesWhite": personWithVirusesWhite,
+  "respiratorWhite": respiratorWhite,
+  "ventilatorWhite": ventilatorWhite
+>>>>>>> origin/development
 }
 const cardStyles = {
   hospitalCard:{
     backgroundColor: '#373540',
     color: '#fff',
-    margin: "10px"
+    margin: "18px"
   },
   card:{
     backgroundColor: '#373540', 
     color: '#fff',
     padding: "10px",
     borderRadius: "5px",
-    margin: "3px"
+    margin: "20px 3px",
+    height: "150px"
+  },
+  cardHeader: {
+    color: "fff"
   },
   button: {
     backgroundColor: '#fff',
@@ -46,7 +77,7 @@ const hospitalData = {
   },
   general: [
     {
-      status: 'Item 1',
+      status: "medicalPersonWhite",
       arr: [
         {
           name: "A",
@@ -59,7 +90,7 @@ const hospitalData = {
       ]
     },
     {
-      status: 'Item 2',
+      status: "respiratorWhite",
       arr: [
         {
           name: "A",
@@ -72,7 +103,7 @@ const hospitalData = {
       ]
     },
     {
-      status: 'Item 3',
+      status: "ventilatorWhite",
       arr: [
         {
           name: "A",
@@ -87,7 +118,7 @@ const hospitalData = {
   ],
   PPE: [
     {
-      status: 'Item 1',
+      status: "bedWhite",
       arr: [
         {
           name: "A",
@@ -100,7 +131,7 @@ const hospitalData = {
       ]
     },
     {
-      status: 'Item 2',
+      status: "faceshieldWhite",
       arr: [
         {
           name: "A",
@@ -113,7 +144,46 @@ const hospitalData = {
       ]
     },
     {
-      status: 'Item 3',
+      status: "glovesWhite",
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
+    {
+      status: "hazardClothingWhite",
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
+    {
+      status: "maskWhite",
+      arr: [
+        {
+          name: "A",
+          count: "1"
+        },
+        {
+          name: "A",
+          count: "2"
+        }
+      ]
+    },
+    {
+      status: "medicalDeliveryWhite",
       arr: [
         {
           name: "A",
@@ -131,7 +201,7 @@ const hospitalData = {
 export default function CenteredGrid() {
 
   return (
-    <Container>
+    <Container style={{padding: "20px 0px"}}>
       <Row>
         <Col>
           <Card style={cardStyles.hospitalCard}>
@@ -147,10 +217,22 @@ export default function CenteredGrid() {
           {
             hospitalData.general.map((item, index) =>
               <Col xs={4} key={index}>
-                <Row style={cardStyles.card}>
-                  <h6>{item.status}</h6>
-                  <CardItem data={item.arr} />
-                </Row>   
+                <main style={cardStyles.card}>
+                  <Row
+                    style={
+                      {
+                        backgroundImage: `linear-gradient(rgba(55, 53, 64, 0.5), rgba(55, 53, 64, 0.5)), url(${covidIcons[item.status]})`, 
+                        backgroundPosition: "center", 
+                        backgroundRepeat: "no-repeat", 
+                        backgroundSize: "30%",
+                        padding: '10px'
+                      }
+                    }
+                  >
+                    <h6>{item.status}</h6>
+                    <CardItem data={item.arr} />
+                  </Row>
+                </main>
               </Col>
             )
           }
@@ -160,14 +242,26 @@ export default function CenteredGrid() {
         <h6>Personal Protective Equipment</h6>
       </Row>
       <Container fluid>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-space-around">
           {
             hospitalData.PPE.map((item, index)=>
             <Col xs={4} key={index}>
-              <Row style={cardStyles.card}>
-                <h6>{item.status}</h6>              
-                <CardItem data={item.arr} />
-              </Row>
+              <main style={cardStyles.card}>
+                <Row 
+                  style={
+                    {
+                      backgroundImage: `linear-gradient(rgba(55, 53, 64, 0.5), rgba(55, 53, 64, 0.5)), url(${covidIcons[item.status]})`,
+                      backgroundPosition: "center", 
+                      backgroundRepeat: "no-repeat", 
+                      backgroundSize: "30%",
+                      padding: '10px'
+                    }
+                  }
+                >
+                  <h6 style={cardStyles.cardHeader}>{item.status}</h6>              
+                  <CardItem data={item.arr} />
+                </Row>
+              </main>
             </Col>
             )
           }
@@ -196,7 +290,7 @@ function CardItem(props){
 
 function HospitalCardItem(props){
   return(
-    <Container>
+    <Container style={{padding: "10px"}}>
       <Row>
         <Col>
         <h4>Name of hospitalData</h4>
@@ -215,7 +309,7 @@ function HospitalCardItem(props){
         </Col>
         <Col>
           <p>Last Updated: {props.data.lastUpdated}</p>
-          <Button size="lg" style={cardStyles.button}>Donate</Button>
+          <Button fullwidth size="lg" style={cardStyles.button}>Donate</Button>
         </Col>
       </Row>
     </Container>
