@@ -4,7 +4,7 @@ import './App.css';
 import hospitals from './hospital.geojson'
 import {Nav, Navbar, NavDropdown, Form, FormControl, Modal, Container} from 'react-bootstrap'
 import AppRouter from './router.js'
-import RequestSuppliesModal from './Components/RegistrationModal/RegistrationModal'
+import RegistrationModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 import { ValidSessionContext } from './Context/ValidSessionContext';
 import LoginModal from './Components/LoginForm/LoginModal'
@@ -35,7 +35,6 @@ function App() {
 
     async function isAuth() {
       const auth = await userAuth();
-      console.log("auth " + auth)
       setAuthenticated(auth)
     }
     // Execute the created function directly
@@ -66,8 +65,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            {userIsAuthenticated == true  && (
-            <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>)}
+            
             {userIsAuthenticated == false && (
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
             <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
@@ -79,7 +77,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
       <div>
-          <RequestSuppliesModal
+          <RegistrationModal
             show={modalShow}
             onHide={() => setModalShow(false)}
             hospitalList={hospitalList}
@@ -90,6 +88,7 @@ function App() {
           <LoginModal
             show={loginModalShow}
             onHide={() => setLoginModalShow(false)}
+            onOpenRegistrationModal={() => setModalShow(true)}  
           />  
       </div>
        <Map></Map>          
