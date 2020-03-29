@@ -1,24 +1,50 @@
 'use strict';
 
 // Dependency Calls
- const config = require('../../../config/api_config');
- const mongoose = require('../../../database/hospitals');
- const profile = require('../../../models/hospitalProfile');
- // Schema
- const Hospital = module.exports = mongoose.model('Hospitals', profile);
+
+const config = require('../../../config/api_config');
+
+// Hospital Setup
+
+const mongooseHospitals = require('../../../database/hospitals');
+const profile = require('../../../models/hospitalProfile');
+const Hospital = module.exports = mongooseHospitals.model('Hospitals', profile);
+
+// Session Setup
+
+const mongooseSession = require('../../../database/sessions');
+const sessionModel = require('../../../models/hospitalSession');
+const Session = module.exports = mongooseSession.model('Sessions', sessionModel);
 
 
-module.exports.findBusinessByEmail = async(email, projection) => {
-	const docs = await Hospital.find({
-		'hospitalInfo.email': email,
-	}, projection).limit(1).exec();
+module.exports.checkAndRender = async(sessionId) => {
 
-	// Error Handling - Model Return
-	if (docs.length === 0) {
-		throw {
-			status: 404,
-			message: 'Business Not Found'
-		};
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		let email = session.email;
+		let hospital = await Hospital.findOne({ 'hospitalInfo.email': email }).select('-security');
+		return hospital;
 	}
-	return docs[0];
+}
+
+module.exports.getAllHospitalNames = async(sessionId) => {
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		let names = await Hospital.find({}).select('hospitalInfo.name');
+		return names;
+	}
+}
+
+module.exports.getHospitalFromSearch = async(sessionId, email) => {
+	let session = await Session.findOne({ 'sessionId': sessionId });
+	if (session == null) {
+		return 401;
+	} else {
+		let hospital = await Hospital.findOne({'hospitalInfo.email': email }).select('-security');
+		return hospital;
+	}
 }
