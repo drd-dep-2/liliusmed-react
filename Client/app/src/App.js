@@ -18,7 +18,8 @@ function App() {
   const [hospitalSearch, setHospitalSearch] = useState("")
   const [hospitalModal, setHospitalModal] = useState(false);
   const handleChangeValue = name => setHospitalSearch(name);
-  const handleHospitalModal = () => setHospitalModal(false);
+  const handleCloseHospitalModal = () => setHospitalModal(false);
+  const handleOpenHospitalModal = () => setHospitalModal(true);
   const modalRef = useRef(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
@@ -57,7 +58,7 @@ function App() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>
-            <Nav.Link onClick={() => setHospitalModal(true)}>Modal</Nav.Link>
+            <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
           </Nav>
           <div>
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
@@ -79,7 +80,7 @@ function App() {
           />  
       </div>
        <Map></Map>          
-        <Modal size="lg" show={hospitalModal} onHide={handleHospitalModal}>
+        <Modal size="lg" show={hospitalModal} onHide={handleCloseHospitalModal}>
           <HospitalModal />
         </Modal>
     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
 
 const cardStyles = {
   hospitalCard:{
@@ -13,23 +13,25 @@ const cardStyles = {
     backgroundColor: '#373540', 
     color: '#fff',
     padding: "10px",
-    borderRadius: "5px"
+    borderRadius: "5px",
+    margin: "3px"
   },
   button: {
     backgroundColor: '#fff',
-    color: ',#373540'
+    color: 'red'
   },
   list: {
     listStyle: 'none'
   }
 }
 
-const hospital = {
+const hospitalData = {
   hospital:{
     name: "Sample",
     location: "Somewhere",
     phone: "215-658-3121",
-    donate: "$100"
+    donate: "$100",
+    lastUpdated: "Today"
   },
   general: [
     {
@@ -37,11 +39,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -50,11 +52,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -63,11 +65,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -78,11 +80,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -91,11 +93,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -104,11 +106,11 @@ const hospital = {
       arr: [
         {
           name: "A",
-          value: "1"
+          count: "1"
         },
         {
           name: "A",
-          value: "2"
+          count: "2"
         }
       ]
     },
@@ -122,19 +124,19 @@ export default function CenteredGrid() {
       <Row>
         <Col>
           <Card style={cardStyles.hospitalCard}>
-            <HospitalCardItem />
+            <HospitalCardItem data={hospitalData.hospital} />
           </Card>
         </Col>
       </Row>
-      <Row>
+      <Row className="justify-content-md-center">
         <h6>General</h6>
       </Row>
       <Container fluid>
         <Row className="justify-content-md-center">
           {
-            hospital.general.map((item, index) =>
-              <Col xs={4} style={cardStyles.card} key={index}>
-                <Row>
+            hospitalData.general.map((item, index) =>
+              <Col xs={4} key={index}>
+                <Row style={cardStyles.card}>
                   <h6>{item.status}</h6>
                   <CardItem data={item.arr} />
                 </Row>   
@@ -143,13 +145,13 @@ export default function CenteredGrid() {
           }
         </Row>
       </Container>
-      <Row>
+      <Row className="justify-content-md-center">
         <h6>Personal Protective Equipment</h6>
       </Row>
       <Container fluid>
         <Row className="justify-content-md-center">
           {
-            hospital.PPE.map((item, index)=>
+            hospitalData.PPE.map((item, index)=>
             <Col xs={4} key={index}>
               <Row style={cardStyles.card}>
                 <h6>{item.status}</h6>              
@@ -173,7 +175,7 @@ function CardItem(props){
         <Row key={index}>
           <Col xs={6}>{item.name}</Col>
           <Col xs={3}></Col>
-          <Col xs={3}>{item.value}</Col>
+          <Col xs={3}>{item.count}</Col>
         </Row>
         )
       }      
@@ -186,23 +188,23 @@ function HospitalCardItem(props){
     <Container>
       <Row>
         <Col>
-        <h4>Name of Hospital</h4>
+        <h4>Name of hospitalData</h4>
         </Col>
         <Col>
          <ul style={cardStyles.list}>
            <li>
-              <FontAwesomeIcon icon={faMapMarkerAlt}/>
+              <FontAwesomeIcon icon={faMapMarkerAlt}/>{" "}
               Address
             </li>
            <li>
-              <FontAwesomeIcon icon={faMapMarkerAlt}/>
+              <FontAwesomeIcon icon={faPhone}/>{" "}
               Telephone Number
             </li>
          </ul>
         </Col>
         <Col>
-          <p>Last Updated</p>
-          <Button style={cardStyles.button}>Donate</Button>
+          <p>Last Updated: {props.data.lastUpdated}</p>
+          <Button size="lg" style={cardStyles.button}>Donate</Button>
         </Col>
       </Row>
     </Container>
