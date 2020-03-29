@@ -41,7 +41,7 @@ export default function RequestSuppliesModal(props) {
             if (props.show) {
             async function login() {
                 const response = await fetch(loginEndpoint, loginOptions);
-                if(response.status == 200)
+                if(response.status === 200)
                 {
                     console.log("logged in..")
                     props.onHide();

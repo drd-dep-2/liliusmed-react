@@ -7,10 +7,7 @@ const path = require('path');
 // Controller
 const Hospital = require('./controller');
 
-
-// Get Dashboard
-
-
+/*
 router.get('/dashboard', (req, res) => {
 	let cookie = req.cookies.sessionId;
 
@@ -19,13 +16,13 @@ router.get('/dashboard', (req, res) => {
 	} else {
 		Hospital.checkAndRender(cookie)
 			.then(result => {
-				
+				res.sendStatus(200);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 		}
-});
+}); */
 
 router.get('/search', (req, res) => {
 
@@ -66,6 +63,17 @@ router.post('/search/select', (req, res) => {
 				console.log(err);
 			});
 	}
+});
+
+//Get Hospital Data for search by Hosptial Name
+router.post('/dashboard/getHospitalData', async(req, res) => {
+
+	
+	let hospitalName = req.body.hospitalName;
+	let sessionId = req.cookies.sessionId;
+	
+	const hospitalObj =  await Hospital.getHospitalByName(sessionId, hospitalName)
+	res.json(hospitalObj)
 });
 
 module.exports = router;

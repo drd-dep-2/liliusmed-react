@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
 //Icon Images
 import bedWhite from "../../Icons/bedWhite.png";
 import faceshieldWhite from "../../Icons/faceshieldWhite.png"
@@ -25,6 +25,18 @@ const covidIcons = {
   "personWithVirusesWhite": personWithVirusesWhite,
   "respiratorWhite": respiratorWhite,
   "ventilatorWhite": ventilatorWhite
+}
+const getHospitalInfoEndpoint = "/dashboard/getHospitalData";
+const getHospitalInfoOptions ={
+  method: "POST",
+  
+  headers: {
+    "Content-Type": "application/json",     
+  },
+  body: JSON.stringify({
+    
+    "hospitalName": "Norwood Hospital"
+  })
 }
 const cardStyles = {
   hospitalCard:{
