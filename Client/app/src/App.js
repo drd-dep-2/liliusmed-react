@@ -2,19 +2,23 @@ import React, {useState, useEffect, useRef, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
 import './App.css';
 import hospitals from './hospital.geojson'
-import {Nav, Navbar, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
+import {Nav, Navbar, NavDropdown, Form, FormControl, Modal, Container} from 'react-bootstrap'
 import AppRouter from './router.js'
 import RequestSuppliesModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 import { ValidSessionContext } from './Context/ValidSessionContext';
 import LoginModal from './Components/LoginForm/LoginModal'
 
+import HospitalModal from "./Components/Modals/HospitalModal";
+
 function App() {
   const [modalShow, setModalShow] = useState(false);
   const[loginModalShow, setLoginModalShow] = useState(false)
   const [hospitalList, setHospitalList] = useState(null)
   const [hospitalSearch, setHospitalSearch] = useState("")
+  const [hospitalModal, setHospitalModal] = useState(false);
   const handleChangeValue = name => setHospitalSearch(name);
+  const handleHospitalModal = () => setHospitalModal(false);
   const modalRef = useRef(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
@@ -53,6 +57,7 @@ function App() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>
+            <Nav.Link onClick={() => setHospitalModal(true)}>Modal</Nav.Link>
           </Nav>
           <div>
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
@@ -70,11 +75,13 @@ function App() {
       <div>
           <LoginModal
             show={loginModalShow}
-            onHide={() => setLoginModalShow(false)}           
+            onHide={() => setLoginModalShow(false)}
           />  
       </div>
-       <Map></Map>
-    
+       <Map></Map>          
+        <Modal size="lg" show={hospitalModal} onHide={handleHospitalModal}>
+          <HospitalModal />
+        </Modal>
     </div>
   );
 }
