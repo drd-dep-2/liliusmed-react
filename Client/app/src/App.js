@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
+import hospitalIcon from './hospitalIcon.png';
 import './App.css';
 import hospitals from './hospital.geojson'
 import {Nav, Navbar, NavDropdown, Form, FormControl, Modal, Container} from 'react-bootstrap'
@@ -8,7 +9,6 @@ import RegistrationModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 import { ValidSessionContext } from './Context/ValidSessionContext';
 import LoginModal from './Components/LoginForm/LoginModal'
-
 import HospitalModal from "./Components/Modals/HospitalModal";
 
 function App() {
@@ -56,7 +56,6 @@ function App() {
         };
         fetchHospitals();
 },[])
-
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -111,121 +110,87 @@ class Map extends React.Component {
   }
   
   componentDidMount() {
-
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/fogs96/ck8dfn26y2vok1jr0wuxy9nhq',
       center: [this.state.lng, this.state.lat],
       zoom: this.state.zoom
     }
-    
     );
     
     map.on('load', function() {
-      map.addSource('trees', {
+
+      const url = 'http://3.15.211.153/api/liliusmed/cases/predicted/geojson';
+        window.setInterval(function() {
+          map.getSource('newyork').setData(url);
+        }, 200000000);
+        
+        map.addSource('newyork', { type: 'geojson', data: url });
+        map.addLayer({
+          'id': 'newyork',
+          'type': 'fill',
+          'source': 'newyork',
+          'paint': {
+            'fill-color':
+            ['case', ['<', ['get', "cases"], 5], '#E3B3A5',
+                    ['<', ['get', "cases"], 50], '#E2967E',
+                    ['>=', ['get', "cases"], 50], '#E06941', '#EAEAEA'],
+            'fill-outline-color': '#bf502b',
+            'fill-opacity': 0.5
+          }
+        });
+
+  // When a click event occurs on a feature in the states layer, open a popup at the
+  // location of the click, with description HTML from its properties.
+
+      map.addSource('hospitals', {
         type: 'geojson',
         data: hospitals
       });
-      map.addLayer({
-        id: 'trees-heat',
-        type: 'heatmap',
-        source: 'trees',
-        maxzoom: 15,
-        paint: {
-          // increase weight as diameter breast height increases
-          'heatmap-weight': {
-            property: 'bedCount',
-            type: 'exponential',
-            stops: [
-              [1, 0],
-              [62, 1]
-            ]
-          },
-          // increase intensity as zoom level increases
-          'heatmap-intensity': {
-            stops: [
-              [11, 1],
-              [15, 3]
-            ]
-          },
-          // assign color values be applied to points depending on their density
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0, 'rgba(236,222,239,0)',
-            0.2, 'rgb(208,209,230)',
-            0.4, 'rgb(166,189,219)',
-            0.6, 'rgb(103,169,207)',
-            0.8, 'rgb(28,144,153)'
-          ],
-          // increase radius as zoom increases
-          'heatmap-radius': {
-            stops: [
-              [11, 15],
-              [15, 20]
-            ]
-          },
-          // decrease opacity to transition into the circle layer
-          'heatmap-opacity': {
-            default: 1,
-            stops: [
-              [14, 1],
-              [15, 0]
-            ]
-          },
-        }
-      }, 'waterway-label');
 
-      map.addLayer({
-        id: 'trees-point',
-        type: 'circle',
-        source: 'trees',
-        minzoom: 10,
-        paint: {
-          // increase the radius of the circle as the zoom level and dbh value increases
-          'circle-radius': {
-            property: 'hospitalName',
-            type: 'exponential',
-            stops: [
-              //[{ zoom: 15, value: 1 }, 5],
-              //[{ zoom: 15, value: 62 }, 10],
-              [{ zoom: 22, value: 1 }, 20],
-              [{ zoom: 22, value: 62 }, 50],
-            ]
-          },
-          'circle-color': {
-            property: 'hospitalName',
-            type: 'exponential',
-            stops: [
-              [0, 'rgba(236,222,239,0)'],
-              [10, 'rgb(236,222,239)'],
-              [20, 'rgb(208,209,230)'],
-              [30, 'rgb(166,189,219)'],
-              [40, 'rgb(103,169,207)'],
-              [50, 'rgb(28,144,153)'],
-              [60, 'rgb(1,108,89)']
-            ]
-          },
-          'circle-stroke-color': 'white',
-          'circle-stroke-width': 1,
-          'circle-opacity': {
-            stops: [
-              [8, 0],
-              [9, 1]
-            ]
-          }
+
+      map.loadImage(
+        hospitalIcon,
+        function(error, image) {
+        if (error) throw error;
+        map.addImage('hospital', image);
+        map.addLayer({
+        'id': 'hospital-point',
+        'type': 'symbol',
+        'source': 'hospitals',
+        'layout': {
+        'icon-image': 'hospital',
+        'icon-ignore-placement': true,
+        'icon-size': 0.03
         }
-      }, 'waterway-label');
-      map.on('click', 'trees-point', function(e) {
-        new mapboxgl.Popup()
-          .setLngLat(e.features[0].geometry.coordinates)
-          .setHTML('<b>Hospital Name:</b> ' + e.features[0].properties.hospitalName + '\n\n'
-           + '<b>Bed Count:</b> ' + e.features[0].properties.bedCount)
+        });
+        }
+        );
+   
+      map.on('click', function(e) {
+        var ourMapLayers = map.queryRenderedFeatures(e.point, {
+          layers: ['countypolygons-0l4xxe', 'newyork', 'hospital-point']
+        });
+        // console.log(ourMapLayers);
+        const hospitalLayer = ourMapLayers.filter(layer => layer.source == "hospitals")[0];
+        const newyorkLayer = ourMapLayers.filter(layer => layer.source == "newyork")[0];
+        const countyLayer = ourMapLayers.filter(layer => layer.sourceLayer == "countyPolygons-0l4xxe")[0];
+
+        if (hospitalLayer != null) {
+          new mapboxgl.Popup()
+          .setLngLat(hospitalLayer.geometry.coordinates)
+          .setHTML('<b>Hospital Name:</b> ' + hospitalLayer.properties.hospitalName + '\n\n'
+           + '<b>Bed Count:</b> ' + hospitalLayer.properties.bedCount)
           .addTo(map);
+        } else if (newyorkLayer != null && ourMapLayers.length > 1) {
+          new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`<h2>${countyLayer.properties.NAME}</h2><span>Predicted Cases Tomorrow: ${newyorkLayer.properties.cases}</span>`)
+          .addTo(map);
+        }
       });
-    });
 
+    });
     map.on('move', () => {
       this.setState({
       lng: map.getCenter().lng.toFixed(4),
@@ -235,11 +200,11 @@ class Map extends React.Component {
       });
   }
   render() {
-    return (
-      <div>
-        <div ref={el => this.mapContainer = el} className="mapContainer" />
-      </div>
-    )
+      return (
+        <div>
+          <div ref={el => this.mapContainer = el} className="mapContainer" />
+        </div>
+      )
   }
 
 }
