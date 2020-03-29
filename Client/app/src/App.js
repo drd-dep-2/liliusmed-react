@@ -66,11 +66,11 @@ function App() {
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             
-            {userIsAuthenticated == false && (
+            {!userIsAuthenticated  && (
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
             <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
           </Nav>
-          {userIsAuthenticated == true  && (
+          {userIsAuthenticated   && (
           <div>
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
           </div>)}

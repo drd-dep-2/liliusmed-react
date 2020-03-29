@@ -2,7 +2,18 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
-
+const getHospitalInfoEndpoint = "/dashboard/getHospitalData";
+const getHospitalInfoOptions ={
+  method: "POST",
+  
+  headers: {
+    "Content-Type": "application/json",     
+  },
+  body: JSON.stringify({
+    
+    "hospitalName": "Norwood Hospital"
+  })
+}
 const cardStyles = {
   hospitalCard:{
     backgroundColor: '#373540',
