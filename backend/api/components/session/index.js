@@ -10,9 +10,10 @@ router.post('/verifySession', (req, res) => {
 	let cookie = req.cookies.sessionId;
 
 	if (!cookie) {
-		res.sendStatus(401).json({
+		console.log('Cookie Not Found');
+		/*res.sendStatus(401).json({
 			message: 'Not Found'
-		});
+		}); */
 	} else {
 		Session.verifySession(cookie)
 			.then(result => {
@@ -23,9 +24,7 @@ router.post('/verifySession', (req, res) => {
 				}
 			})
 			.catch(err => {
-				res.sendStatus(500).json({
-					message: err.message
-				});
+				console.log(err);
 			});
 	}
 });
