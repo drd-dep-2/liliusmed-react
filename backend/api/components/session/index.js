@@ -11,14 +11,14 @@ router.post('/verifySession', (req, res) => {
 	
 	console.log(cookie);
 	if (!cookie) {
-		res.sendStatus(401);
+		res.json({status : "No Session"});
 	} else {
 		Session.verifySession(cookie)
 			.then(result => {
-				if (result == 401) {
-					res.sendStatus(401);
+				if (result.status == "No Session") {
+					res.json({status : "No Session"});
 				} else {
-					res.sendStatus(200);
+					res.json({status : "Valid Session"})
 				}
 			})
 			.catch(err => {

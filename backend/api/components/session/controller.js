@@ -10,8 +10,8 @@ module.exports.verifySession = async(sessionId) => {
 
 	let session = await Session.findOne({ 'sessionId': sessionId });
 	if (session == null) {
-		return 401;
+		return {"status" : "No Session"};
 	} else {
-		return 200;
+		return {"status" : "Valid Session"};
 	}
 }
