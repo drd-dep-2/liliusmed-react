@@ -28,23 +28,32 @@ export default function RequestSuppliesModal(props) {
         "password" : formData.password
       })
     }
-
+    const firstUpdate = useRef(0);
     useEffect(() => {
-        if (props.show) {
-        async function login() {
-            const response = await fetch(loginEndpoint, loginOptions);
-            if(response.status == 200)
-            {
-                console.log("logged in..")
-                props.onHide();
-                window.location.reload();
+        console.log(firstUpdate.current)
+        if(firstUpdate.current < 2 )
+        {
+           
+            firstUpdate.current = firstUpdate.current + 1;
+            return;
+        }
+        else{
+            if (props.show) {
+            async function login() {
+                const response = await fetch(loginEndpoint, loginOptions);
+                if(response.status == 200)
+                {
+                    console.log("logged in..")
+                    props.onHide();
+                    window.location.reload();
+                }
+                else{
+                    setInvalidLogin(true)
+                }
             }
-            else{
-                setInvalidLogin(true)
+            // Execute the created function directly
+            login();
             }
-          }
-          // Execute the created function directly
-          login();
         } 
     }, [formData, props.show]);
     function InvalidLogin () {
