@@ -17,13 +17,13 @@ function App() {
   const [hospitalList, setHospitalList] = useState(null)
   const [hospitalSearch, setHospitalSearch] = useState("")
   const [hospitalModal, setHospitalModal] = useState(false);
+  const [userIsAuthenticated, setAuthenticated] = useState(null)
   const handleChangeValue = name => setHospitalSearch(name);
   const handleCloseHospitalModal = () => setHospitalModal(false);
   const handleOpenHospitalModal = () => setHospitalModal(true);
-  const modalRef = useRef(null)
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
-  const {fakeAuth} = useContext(ValidSessionContext)
+  const {userAuth} = useContext(ValidSessionContext)
   const getHospitaloptions = {
     method: "GET",
     
@@ -31,9 +31,19 @@ function App() {
       "Content-Type": "application/json",     
     }
   }
+  useEffect(() => {
+
+    async function isAuth() {
+      const auth = await userAuth();
+      console.log("auth " + auth)
+      setAuthenticated(auth)
+    }
+    // Execute the created function directly
+    isAuth();
+  },[loginModalShow])
 
   useEffect(() => {
-    fakeAuth()
+    
     const fetchHospitals =  () => {
         fetch(getHospitalsEndpoint, getHospitaloptions)
         .then(result =>
@@ -56,13 +66,16 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>
-            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>
+            {userIsAuthenticated == true  && (
+            <Nav.Link onClick={() => setModalShow(true)}>Register Hospital</Nav.Link>)}
+            {userIsAuthenticated == false && (
+            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
             <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
           </Nav>
+          {userIsAuthenticated == true  && (
           <div>
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
-          </div>
+          </div>)}
         </Navbar.Collapse>
       </Navbar>
       <div>
