@@ -64,14 +64,15 @@ function App() {
             show={modalShow}
             onHide={() => setModalShow(false)}
             hospitalList={hospitalList}
-            
+            onOpenLogin
           />  
       </div>
       <div>
           <LoginModal
             show={loginModalShow}
-            onHide={() => setLoginModalShow(false)}           
-          />  
+            onHide={() => setLoginModalShow(false)}    
+            onOpenRegistrationModal={() => setModalShow(true)}       
+          />
       </div>
        <Map></Map>
     
