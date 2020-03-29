@@ -3,28 +3,35 @@ import React, { useEffect, useState } from 'react';
 export const ValidSessionContext = React.createContext();
 
 export default ({ children }) => {
-    /*
-  const prevAuth = JSON.parse(window.localStorage.getItem('authenticated')) || false;
-  const prevAuthBody = window.localStorage.getItem('authBody') || null;
-  const [authenticated, setAuthenticated] = useState(prevAuth);
-  const [authBody, setAuthBody] = useState(prevAuthBody);
-  useEffect(
-    () => {
-      window.localStorage.setItem('authenticated', JSON.stringify(authenticated));
-      window.localStorage.setItem('authBody', authBody);     
-    },
-    [authenticated, authBody]
-  );*/
-  const fakeAuth = () =>
-  {
-    console.log("fake auth")
-  }
-  const defaultContext = {
-    fakeAuth
-  };
-  return (
-    <ValidSessionContext.Provider value={defaultContext}>
-      {children}
-    </ValidSessionContext.Provider>
-  );
+
+    const isUserAuthenticatedEndpoint = "/api/verifySession";
+    const isUserAuthenticatedOptions =  {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+        "Content-Type": "application/json",     
+        }};
+
+    async function userAuth ()
+    {
+        
+        const response = await fetch(isUserAuthenticatedEndpoint, isUserAuthenticatedOptions)
+        const json = await response.json();
+        if(json.status == "Valid Session")
+        {
+            return true;
+        }
+        else{
+            return false
+        }
+        
+    };
+    const defaultContext = {
+        userAuth: userAuth
+    };
+    return (
+        <ValidSessionContext.Provider value={defaultContext}>
+        {children}
+        </ValidSessionContext.Provider>
+    );
 };

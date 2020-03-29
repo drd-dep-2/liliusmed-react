@@ -27,11 +27,12 @@ module.exports.login = async(email, password, randomString, projection) => {
 		return 401
 	}
 	let hospital = docs[0];
-	let session = { email: email, sessionId: randomString };
 	
+	console.log("Password " + password)
 	 const test = await bcryptjs.compare(password, hospital.security.hashed_password);
 	 if(test == true)
 	 {
+		let session = { email: email, sessionId: randomString };
 		await Session.deleteMany({"email" : email}) //delete sessions if they already exist
 		await Session.create(session, (err, session) => {
 			if (err) {
@@ -43,4 +44,5 @@ module.exports.login = async(email, password, randomString, projection) => {
 		})
 		 return 200
 	 }
+	 return 401
 }

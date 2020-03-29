@@ -19,10 +19,7 @@ router.use(require('cookie-parser')());
 router.post('/login/authenticate', (req, res) => {
 
 	let randomString = cryptoRandomString({ length: 16, type: 'url-safe'});
-	res.cookie('sessionId', randomString, {
-		maxAge: 900000,
-		httpOnly: true
-	});
+	
 
 	// Set Form Body Fields
 	let email = req.body.email;
@@ -31,8 +28,13 @@ router.post('/login/authenticate', (req, res) => {
 	// Login Controller
 	Hospital.login(email, password, randomString)
 		.then(result => {
-			if(result == 200) {
-				res.sendStatus(200);
+			if(result == 200)
+			{
+				res.cookie('sessionId', randomString, {
+					maxAge: 900000,
+					httpOnly: true
+				});
+				res.sendStatus(200)
 			}
 			else {
 				res.sendStatus(401);

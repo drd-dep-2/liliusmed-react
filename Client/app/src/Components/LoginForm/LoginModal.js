@@ -13,6 +13,7 @@ export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
     const [hospitalName, setHospitalName] = useState("")
     const [formData, setFormData] = useState("")
+    const [invalidLogin, setInvalidLogin] = useState(false)
     const modalRef = useRef(null)
     const loginEndpoint = "api/login/authenticate";
     const loginOptions = {
@@ -29,21 +30,29 @@ export default function RequestSuppliesModal(props) {
     }
 
     useEffect(() => {
-        {props.onHide()}
-      }, [successfulSubmit]);
-
-    useEffect(() => {
-      if (props.show) {
-        fetch(loginEndpoint, loginOptions).then(response => 
-          {
-            if(response.status === 200)
+        if (props.show) {
+        async function login() {
+            const response = await fetch(loginEndpoint, loginOptions);
+            if(response.status == 200)
             {
-              console.log("Successfully created company: " + hospitalName)
+                console.log("logged in..")
+                props.onHide();
+                window.location.reload();
             }
-          });
-        }
+            else{
+                setInvalidLogin(true)
+            }
+          }
+          // Execute the created function directly
+          login();
+        } 
     }, [formData, props.show]);
-
+    function InvalidLogin () {
+        if(invalidLogin)
+        {
+          return <div className="alert alert-danger">  Invalid Login Credentials</div>
+        }
+      }
     return (
 
         <Modal
@@ -60,19 +69,23 @@ export default function RequestSuppliesModal(props) {
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            <div>{InvalidLogin()}</div>
             <Formik
+                enableReinitialize
                 {...props}
                 initialValues={{ name:"", password:""}}
                 //validationSchema={validationSchema}
-                onSubmit={(values, {setSubmitting,}) => {
+                onSubmit={(values, {setSubmitting,resetForm}) => {
+                    
                     // When button submits form and form is in the process of submitting, submit button is disabled
                     setSubmitting(true);
                     //will trigger server call to create hospital 
                     setFormData(values)
                     // Simulate submitting to database, shows us values submitted, resets form
-                  
+                    
                     setSuccessfulSubmit(true); //set state variable to close modal on successful submit
-               
+                    resetForm({ name:"", password:""})
+                    
                 }}
             >
             {( {values,
@@ -81,7 +94,8 @@ export default function RequestSuppliesModal(props) {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                isSubmitting }) => (
+                isSubmitting,
+                }) => (
               <MYFORM onSubmit={handleSubmit} autoComplete="off" className="mx-auto">
                 <Form.Group controlId="formEmail">
                   <Form.Label>Email :</Form.Label>
