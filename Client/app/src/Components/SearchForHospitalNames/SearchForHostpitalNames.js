@@ -37,6 +37,7 @@ const SearchForHospitalNames = (props) => {
             className="searchBar" 
             placeholder="Search Hospitals" 
             value={currentSearchBarText}
+            onFocus={() => currentSearchBarText.length > 0 && setDisplay(true)}
             onChange={(event) => {
             setCurrentSearchBarText(event.target.value)
             event.target.value.length > 0 ? setDisplay(true) : setDisplay(false)}}

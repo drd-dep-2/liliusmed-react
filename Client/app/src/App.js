@@ -70,7 +70,7 @@ function App() {
     <div>
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"> 
             {!userIsAuthenticated  && (
