@@ -37,7 +37,10 @@
   .login-button {
     color: rgba(0, 0, 0, 0.9);
   }
-  
+  .modal-background{
+    opacity: .9 !important;
+    color: rgb(184, 184, 184)
+  }
   .map-overlay {
     position: absolute;
     bottom: 0;

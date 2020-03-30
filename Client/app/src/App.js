@@ -59,10 +59,14 @@ function App() {
 },[])
   return (
     <div>
-      <Navbar bg="light" expand="lg" style={{justifyContent: 'space-between'}}>
+      <Navbar bg="light" expand="lg">
         <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-        <Navbar.Collapse id="basic-navbar-nav" style={{maxWidth: 400}}>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto"> 
+            {!userIsAuthenticated  && (
+            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
+          </Nav>
           {userIsAuthenticated   && (
               <SearchForHospitalNames value={hospitalSearch} setValue={(hospitalName) => {
                 handleSearchChange(hospitalName);
@@ -70,8 +74,6 @@ function App() {
               }} hospitalList={hospitalList} className="mr-sm-2" />
           )}
         </Navbar.Collapse>
-        {!userIsAuthenticated  && (
-            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
       </Navbar>
       <div>
           <RegistrationModal
@@ -90,7 +92,7 @@ function App() {
       </div>
        <Map></Map>
        <div class='map-overlay' id='legend'></div>  
-        <Modal size="modal-90w"show={hospitalModal} onHide={handleCloseHospitalModal}>
+        <Modal className="modal-background" size="xl"show={hospitalModal} onHide={handleCloseHospitalModal}>
           <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
         </Modal>
     </div>
