@@ -60,14 +60,10 @@ function App() {
 },[])
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg" style={{justifyContent: 'space-between'}}>
         <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto"> 
-            {!userIsAuthenticated  && (
-            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
-          </Nav>
+        <Navbar.Collapse id="basic-navbar-nav" style={{maxWidth: 400}}>
           {userIsAuthenticated   && (
               <SearchForHospitalNames value={hospitalSearch} setValue={(hospitalName) => {
                 handleSearchChange(hospitalName);
@@ -75,6 +71,8 @@ function App() {
               }} hospitalList={hospitalList} className="mr-sm-2" />
           )}
         </Navbar.Collapse>
+        {!userIsAuthenticated  && (
+            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
       </Navbar>
       <div>
           <RegistrationModal
