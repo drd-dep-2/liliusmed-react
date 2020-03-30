@@ -1,6 +1,4 @@
 'use strict';
-
-'use strict';
 // Server and Setup
 const express = require('express');
 const router = express.Router();
@@ -9,35 +7,73 @@ const path = require('path');
 // Controller
 const Hospital = require('./controller');
 
-router.use((req, res, next) => {
-	let cookie = req.cookies.authCookie;
-	console.log(cookie);
+/*
+router.get('/dashboard', (req, res) => {
+	let cookie = req.cookies.sessionId;
 
-	if (cookie === undefined) {
-		res.redirect('/');
+	if (!cookie) {
+		res.sendStatus(401);
 	} else {
-		next();
+		Hospital.checkAndRender(cookie)
+			.then(result => {
+				res.sendStatus(200);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		}
+}); */
+
+router.get('/search', (req, res) => {
+
+	let cookie = req.cookies.sessionId;
+	if (!cookie) {
+		res.sendStatus(401);
+	} else {
+		Hospital.getAllHospitalNames(cookie)
+			.then(result => {
+				if (result == 401) {
+					res.sendStatus(401);
+				} else {
+					res.send(result);
+				}
+			})
+			.catch(err => {
+				res.sendStatus(404);
+			})
+		}
+});
+
+router.post('/search/select', (req, res) => {
+	let cookie = req.cookies.sessionId;
+	let email = req.body.email;
+	if (!cookie) {
+		res.sendStatus(401);
+	} else {
+		Hospital.getHospitalFromSearch(cookie, email)
+			.then(result => {
+				if (result == 401) {
+					res.sendStatus(401);
+				} else {
+					console.log(result);
+					res.send(result);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	}
 });
 
-// Get Dashboard
-router.get('/dashboard/:email', (req, res) => {
-	let email = req.params.email;
+//Get Hospital Data for search by Hosptial Name
+router.post('/dashboard/getHospitalData', async(req, res) => {
 
-	console.log(cookie);
-	Hospital.findHospitalByEmail(email)
-		.then(result => {
-			res.status(200).json({
-				email: email
-			})
-		})
-		.catch(err => {
-			res.status(500).json({
-				code: 500,
-				note: 'Internal Server Error',
-				message: err.message
-			});
-		});
+	
+	let hospitalName = req.body.hospitalName;
+	let sessionId = req.cookies.sessionId;
+	
+	const hospitalObj =  await Hospital.getHospitalByName(sessionId, hospitalName)
+	res.json(hospitalObj)
 });
 
 module.exports = router;
