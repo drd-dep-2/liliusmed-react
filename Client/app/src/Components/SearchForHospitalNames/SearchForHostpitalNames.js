@@ -36,7 +36,8 @@ const SearchForHospitalNames = (props) => {
             aria-describedby="inputGroup-sizing-lg"
             className="searchBar" 
             placeholder="Search Hospitals" 
-            value={props.value}
+            value={currentSearchBarText}
+            onFocus={() => currentSearchBarText.length > 0 && setDisplay(true)}
             onChange={(event) => {
             setSearchValue(event.target.value)
             event.target.value.length > 0 ? setDisplay(true) : setDisplay(false)}}
