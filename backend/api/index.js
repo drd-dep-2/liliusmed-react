@@ -9,6 +9,7 @@ module.exports = (app) => {
 	let logout = require('./components/logout/index');
 	let dashboard = require('./components/dashboard/index');
 	let verify = require('./components/session/index');
+	let countyData = require('./components/countyData/index');
 	//let settings = require('./components/settings/index');
 	//let support = require('./components/support/index');
 	
@@ -18,7 +19,7 @@ module.exports = (app) => {
 
 
 	// Add Routes
-	let routes = [register, logout, login, verify, dashboard, editData/*, settings, support*/];
+	let routes = [register, logout, login, verify, dashboard, editData/*,countyData, settings, support*/];
 
 	app.use('/api', routes);
 }
