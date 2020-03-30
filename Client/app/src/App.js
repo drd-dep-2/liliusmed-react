@@ -88,7 +88,8 @@ function App() {
             onOpenRegistrationModal={() => setModalShow(true)}  
           />  
       </div>
-       <Map></Map>          
+       <Map></Map>
+       <div class='map-overlay' id='legend'></div>  
         <Modal size="modal-90w"show={hospitalModal} onHide={handleCloseHospitalModal}>
           <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
         </Modal>

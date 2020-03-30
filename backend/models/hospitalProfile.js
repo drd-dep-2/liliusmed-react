@@ -151,6 +151,7 @@ let hospitalSchema = Schema({
 		}
 	},
 	burnRateData: [rateSchema]
-}, { collection: 'Hospitals'});
+}, 
+	{	timestamps: true, collection: 'Hospitals'});
 
 module.exports = hospitalSchema;
