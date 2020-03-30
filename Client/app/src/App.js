@@ -168,26 +168,19 @@ class Map extends React.Component {
         data: hospitals
       });
 
-
-      // map.loadImage(
-      //   hospitalIcon,
-      //   function(error, image) {
-      //   if (error) throw error;
-      //   map.addImage('hospital', image);
-        map.addLayer({
-        'id': 'hospital-point',
-        'type': 'circle',
-        'source': 'hospitals',
-        'paint': {
-        // increase the radius of the circle as the zoom level and dbh value increases
-        'circle-radius': {
-          'base': 1.75,
-          'stops': [[4, 3], [6, 4], [7, 5], [8, 8], [10, 12], [12, 20], [15, 25], [18, 30]]
-          },
-          'circle-color': "#A71E15"
-        }
-        });
-      // });
+      map.addLayer({
+      'id': 'hospital-point',
+      'type': 'circle',
+      'source': 'hospitals',
+      'paint': {
+      // increase the radius of the circle as the zoom level and dbh value increases
+      'circle-radius': {
+        'base': 1.75,
+        'stops': [[4, 3], [6, 4], [7, 5], [8, 8], [10, 12], [12, 20], [15, 25], [18, 30]]
+        },
+        'circle-color': "#A71E15"
+      }
+      });
    
       map.on('click', function(e) {
         var ourMapLayers = map.queryRenderedFeatures(e.point, {
