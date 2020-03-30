@@ -11,7 +11,7 @@ import AlternativeAuthButton from '../AlternativeAuthButton';
 
 export default function RequestSuppliesModal(props) {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-    const [hospitalName, setHospitalName] = useState("")
+    const [didMount, setDidMount] = useState(false)
     const [formData, setFormData] = useState("")
     const [invalidLogin, setInvalidLogin] = useState(false)
     const modalRef = useRef(null)
@@ -28,34 +28,28 @@ export default function RequestSuppliesModal(props) {
         "password" : formData.password
       })
     }
-    const firstUpdate = useRef(0);
+    useEffect(() => setDidMount(true), [])
     useEffect(() => {
-        console.log(firstUpdate.current)
-        if(firstUpdate.current < 2 )
+        if(didMount && props.show)
         {
-           
-            firstUpdate.current = firstUpdate.current + 1;
-            return;
-        }
-        else{
             if (props.show) {
-            async function login() {
-                const response = await fetch(loginEndpoint, loginOptions);
-                if(response.status === 200)
-                {
-                    console.log("logged in..")
-                    props.onHide();
-                    window.location.reload();
+                async function login() {
+                    const response = await fetch(loginEndpoint, loginOptions);
+                    if(response.status === 200)
+                    {
+                        console.log("logged in..")
+                        props.onHide();
+                        window.location.reload();
+                    }
+                    else{
+                        setInvalidLogin(true)
+                    }
                 }
-                else{
-                    setInvalidLogin(true)
+                // Execute the created function directly
+                login();
                 }
-            }
-            // Execute the created function directly
-            login();
-            }
-        } 
-    }, [formData, props.show]);
+        }
+    }, [formData]);
     function InvalidLogin () {
         if(invalidLogin)
         {

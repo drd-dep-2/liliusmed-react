@@ -49,7 +49,7 @@ export default function RequestSuppliesModal(props) {
         );
       };
     }, [formData, props.show]);
-    const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
+    const handleChangeValue = name => setHospitalName(name) 
     return (
 
         <Modal

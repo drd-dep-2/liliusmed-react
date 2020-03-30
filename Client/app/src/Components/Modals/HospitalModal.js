@@ -195,14 +195,16 @@ const hospitalData = {
   ]
 }
 
-export default function CenteredGrid() {
-
+export default function CenteredGrid(props) {
+  useEffect(()=> {
+    
+  },[props.hospitalName])
   return (
     <Container style={{padding: "20px 0px"}}>
       <Row>
         <Col>
           <Card style={cardStyles.hospitalCard}>
-            <HospitalCardItem data={hospitalData.hospital} />
+            <HospitalCardItem hospitalName={props.hospitalName} data={hospitalData.hospital} />
           </Card>
         </Col>
       </Row>
@@ -290,7 +292,7 @@ function HospitalCardItem(props){
     <Container style={{padding: "10px"}}>
       <Row>
         <Col>
-        <h4>Name of hospitalData</h4>
+        <h4>{props.hospitalName}</h4>
         </Col>
         <Col>
          <ul style={cardStyles.list}>
@@ -306,7 +308,7 @@ function HospitalCardItem(props){
         </Col>
         <Col>
           <p>Last Updated: {props.data.lastUpdated}</p>
-          <Button fullwidth size="lg" style={cardStyles.button}>Donate</Button>
+          <Button fullwidth="true" size="lg" style={cardStyles.button}>Donate</Button>
         </Col>
       </Row>
     </Container>
