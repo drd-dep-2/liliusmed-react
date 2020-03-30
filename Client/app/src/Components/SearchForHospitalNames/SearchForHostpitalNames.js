@@ -4,13 +4,13 @@ import {Button, FormControl, InputGroup} from 'react-bootstrap';
 
 const SearchForHospitalNames = (props) => {
     const [display, setDisplay] = useState(false);
-    
+    const [currentSearchBarText, setCurrentSearchBarText] = useState("")
     // const [search, setSearch] = useState("");
     const wrapperRef = useRef(null);
 
 
     const setSearchValue = hospital => {
-        console.log(hospital)
+        setCurrentSearchBarText(hospital)
         props.setValue(hospital);
         setDisplay(false);
     }
@@ -36,9 +36,9 @@ const SearchForHospitalNames = (props) => {
             aria-describedby="inputGroup-sizing-lg"
             className="searchBar" 
             placeholder="Search Hospitals" 
-            value={props.value}
+            value={currentSearchBarText}
             onChange={(event) => {
-            setSearchValue(event.target.value)
+            setCurrentSearchBarText(event.target.value)
             event.target.value.length > 0 ? setDisplay(true) : setDisplay(false)}}
          /> 
         </InputGroup>
@@ -46,7 +46,7 @@ const SearchForHospitalNames = (props) => {
         {display && props.hospitalList != null && (
             <div className="optionListBox">
                 <ul className="optionList">
-                {props.hospitalList.filter(({hospitalInfo})=> hospitalInfo.name.toLowerCase().includes(props.value.toLowerCase())).map((ele, index) => {
+                {props.hospitalList.filter(({hospitalInfo})=> hospitalInfo.name.toLowerCase().includes(currentSearchBarText.toLowerCase())).map((ele, index) => {
                     if (index < 20) {
                         return (
                             <li onClick={() => setSearchValue(ele.hospitalInfo.name)} className="option" key={index} tabIndex="0">

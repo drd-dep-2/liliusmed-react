@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
 import hospitalIcon from './hospitalIcon.png';
 import './App.css';
 import hospitals from './hospital.geojson'
-import {Nav, Navbar, NavDropdown, Form, FormControl, Modal, Container} from 'react-bootstrap'
-import AppRouter from './router.js'
+import {Nav, Navbar, Modal} from 'react-bootstrap'
 import RegistrationModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 import { ValidSessionContext } from './Context/ValidSessionContext';
@@ -18,9 +17,9 @@ function App() {
   const [hospitalSearch, setHospitalSearch] = useState("")
   const [hospitalModal, setHospitalModal] = useState(false);
   const [userIsAuthenticated, setAuthenticated] = useState(null)
+  const [didMount, setDidMount] = useState(false)
   const handleChangeValue = name => setHospitalSearch(name);
   const handleCloseHospitalModal = () => setHospitalModal(false);
-  const handleOpenHospitalModal = () => setHospitalModal(true);
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
   const {userAuth} = useContext(ValidSessionContext)
@@ -31,6 +30,9 @@ function App() {
       "Content-Type": "application/json",     
     }
   }
+  // Setting didMount to true upon mounting
+  useEffect(() => setDidMount(true), [])
+
   useEffect(() => {
 
     async function isAuth() {
@@ -40,6 +42,14 @@ function App() {
     // Execute the created function directly
     isAuth();
   },[loginModalShow])
+
+  useEffect(() => {
+    if(didMount)
+    {
+      setHospitalModal(true)
+    }
+    
+  },[hospitalSearch]);
 
   useEffect(() => {
     
@@ -62,15 +72,12 @@ function App() {
         <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            
+          <Nav className="mr-auto"> 
             {!userIsAuthenticated  && (
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
-            <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
           </Nav>
           {userIsAuthenticated   && (
-          <div>
+          <div className="mx-md-auto">
             <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
           </div>)}
         </Navbar.Collapse>
@@ -91,8 +98,8 @@ function App() {
           />  
       </div>
        <Map></Map>          
-        <Modal size="modal-90w" show={hospitalModal} onHide={handleCloseHospitalModal}>
-          <HospitalModal />
+        <Modal size="modal-90w"show={hospitalModal} onHide={handleCloseHospitalModal}>
+          <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
         </Modal>
     </div>
   );
