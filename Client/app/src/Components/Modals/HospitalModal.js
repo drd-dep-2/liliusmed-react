@@ -74,121 +74,121 @@ const hospitalData = {
   },
   general: [
     {
-      status: "medicalPersonWhite",
+      status: "Impatients",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "Confirmed Positive",
+          count: "3"
         },
         {
-          name: "A",
+          name: "Persons Under Investigation (PUI)",
           count: "2"
         }
       ]
     },
     {
-      status: "respiratorWhite",
+      status: "Beds",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "Available",
+          count: "32"
         },
         {
-          name: "A",
-          count: "2"
+          name: "Occupied",
+          count: "140"
         }
       ]
     },
     {
-      status: "ventilatorWhite",
+      status: "Staff",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "On Call",
+          count: "40"
         },
         {
-          name: "A",
-          count: "2"
+          name: "On Shift",
+          count: "100"
         }
       ]
     },
   ],
   PPE: [
     {
-      status: "bedWhite",
+      status: "Gloves",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "Sm",
+          count: "40"
         },
         {
-          name: "A",
-          count: "2"
+          name: "Med",
+          count: "80"
+        },
+        {
+          name: "Lg",
+          count: "100"
         }
       ]
     },
     {
-      status: "faceshieldWhite",
+      status: "Isolation Gowns",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "SM",
+          count: "35"
         },
         {
-          name: "A",
-          count: "2"
+          name: "Med",
+          count: "24"
+        },
+        {
+          name: "Lg",
+          count: "40"
         }
       ]
     },
     {
-      status: "glovesWhite",
+      status: "Respirators",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "N95",
+          count: "9"
         },
         {
-          name: "A",
-          count: "2"
+          name: "PAPR",
+          count: "4"
         }
       ]
     },
     {
-      status: "hazardClothingWhite",
+      status: "Surgical Masks",
       arr: [
         {
-          name: "A",
-          count: "1"
-        },
-        {
-          name: "A",
-          count: "2"
+          name: "Available",
+          count: "20"
         }
       ]
     },
     {
-      status: "maskWhite",
+      status: "Face Shields",
       arr: [
         {
-          name: "A",
-          count: "1"
-        },
-        {
-          name: "A",
-          count: "2"
+          name: "Available",
+          count: "60"
         }
       ]
     },
     {
-      status: "medicalDeliveryWhite",
+      status: "Ventilators",
       arr: [
         {
-          name: "A",
-          count: "1"
+          name: "Available",
+          count: "20"
         },
         {
-          name: "A",
-          count: "2"
+          name: "In Use",
+          count: "20"
         }
       ]
     },
@@ -324,7 +324,7 @@ function HospitalCardItem(props){
          <ul style={cardStyles.list}>
            <li>
               <FontAwesomeIcon icon={faMapMarkerAlt}/>{" "}
-              Address
+              Address 
             </li>
            <li>
               <FontAwesomeIcon icon={faPhone}/>{" "}
