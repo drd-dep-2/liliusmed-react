@@ -214,7 +214,7 @@ module.exports.editData = async(sessionId, data) => {
 						data.currentExtraLargeGownsBurnRate = 0
 						data.averageExtraLargeGownsBurnRate = 0
 					}
-		let burnRate = {
+		burnRate = {
 			'burnRateData.gloves.small': data.gloves.small,
 			'burnRateData.gloves.medium': data.gloves.medium,
 			'burnRateData.gloves.large': data.gloves.large,
