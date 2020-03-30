@@ -18,7 +18,7 @@ function App() {
   const [hospitalModal, setHospitalModal] = useState(false);
   const [userIsAuthenticated, setAuthenticated] = useState(null)
   const [didMount, setDidMount] = useState(false)
-  const handleChangeValue = name => setHospitalSearch(name);
+  const handleSearchChange = name => setHospitalSearch(name);
   const handleCloseHospitalModal = () => setHospitalModal(false);
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
@@ -78,7 +78,7 @@ function App() {
           </Nav>
           {userIsAuthenticated   && (
           <div className="mx-md-auto">
-            <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
+            <SearchForHospitalNames value={hospitalSearch} setValue={handleSearchChange} hospitalList={hospitalList} className="mr-sm-2" />
           </div>)}
         </Navbar.Collapse>
       </Navbar>

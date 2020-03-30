@@ -38,7 +38,7 @@ export default function RequestSuppliesModal(props) {
       }, [successfulSubmit]);
 
     useEffect(() => {
-      if(props.show) {
+      if(formData != "" && props.show) {
         fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
           {
             if(response.status === 200)
