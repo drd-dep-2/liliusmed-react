@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
@@ -196,7 +196,33 @@ const hospitalData = {
 }
 
 export default function CenteredGrid(props) {
+  const [hospitalDataState, setHospitalData] = useState("")
+  const [hospitalName, setHospitalName] = useState("")
+  const getHospitalDataEndpoint = '/api/dashboard/getHospitalData';
+
   useEffect(()=> {
+    console.log(props.hospitalName)
+    const fetchHospitalData =  () => {
+      fetch(getHospitalDataEndpoint, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",     
+        },
+        body: JSON.stringify({
+          "hospitalName" : props.hospitalName
+        })
+      })
+      .then(result =>
+        result.json()).catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message);
+        }).
+      then(data => 
+        {
+          setHospitalData(data)
+          console.log(data)
+        })  
+      };
+      fetchHospitalData();
     
   },[props.hospitalName])
   return (

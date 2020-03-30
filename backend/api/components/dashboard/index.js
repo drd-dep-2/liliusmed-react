@@ -46,7 +46,10 @@ router.post('/dashboard/getHospitalData', async(req, res) => {
 	
 	let hospitalName = req.body.hospitalName;
 	let sessionId = req.cookies.sessionId;
-	
+	if(!hospitalName)
+	{
+		res.sendStatus(500)
+	}
 	const hospitalObj =  await Hospital.getHospitalByName(sessionId, hospitalName)
 	res.json(hospitalObj)
 });
