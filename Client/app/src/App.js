@@ -44,14 +44,6 @@ function App() {
   },[loginModalShow])
 
   useEffect(() => {
-    if(didMount)
-    {
-      setHospitalModal(true)
-    }
-    
-  },[hospitalSearch]);
-
-  useEffect(() => {
     
     const fetchHospitals =  () => {
         fetch(getHospitalsEndpoint, getHospitaloptions)
@@ -77,9 +69,11 @@ function App() {
             <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
           </Nav>
           {userIsAuthenticated   && (
-          <div className="mx-md-auto">
-            <SearchForHospitalNames value={hospitalSearch} setValue={handleSearchChange} hospitalList={hospitalList} className="mr-sm-2" />
-          </div>)}
+              <SearchForHospitalNames value={hospitalSearch} setValue={(hospitalName) => {
+                handleSearchChange(hospitalName);
+                setHospitalModal(true);
+              }} hospitalList={hospitalList} className="mr-sm-2" />
+          )}
         </Navbar.Collapse>
       </Navbar>
       <div>
