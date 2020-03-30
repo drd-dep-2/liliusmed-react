@@ -10,7 +10,7 @@
     right: 16px;
     background-color: #ffffff;
     margin-top: 2rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: auto;
     max-height: 12rem;
     width: 400px;
