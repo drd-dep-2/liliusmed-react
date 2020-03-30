@@ -1,16 +1,21 @@
 .hospitalSearchBox {
-    display: flex
+    display: flex;
+    width: 100%;
+    position: relative;
 }
 .optionListBox {
-    border: 1px solid black;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
     margin: auto;
     z-index: 1;
     position: absolute;
+    left: 0;
     background-color: #ffffff;
     margin-top: 2rem;
-    overflow: scroll;
-    height: 6rem;
-    width: 48%;
+    overflow-y: auto;
+    height: auto;
+    max-height: 12rem;
+    width: 100%;
 }
 .optionList {
     list-style-type: none;
@@ -19,8 +24,7 @@
     margin: 0px;
 }
 .option {
-    border: 1px solid black;
-    padding: 2px;
+    padding: 7px;
 }
 .option:hover {
     cursor: pointer;

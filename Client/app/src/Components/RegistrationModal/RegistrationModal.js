@@ -38,7 +38,7 @@ export default function RequestSuppliesModal(props) {
       }, [successfulSubmit]);
 
     useEffect(() => {
-      if(props.show) {
+      if(formData != "" && props.show) {
         fetch(registerHospitalEndpoint, registerHospitalOptions).then(response => 
           {
             if(response.status === 200)
@@ -49,7 +49,7 @@ export default function RequestSuppliesModal(props) {
         );
       };
     }, [formData, props.show]);
-    const handleChangeValue = name => setHospitalName(name) //this.setState({value: e.target.value});
+    const handleChangeValue = name => setHospitalName(name) 
     return (
 
         <Modal

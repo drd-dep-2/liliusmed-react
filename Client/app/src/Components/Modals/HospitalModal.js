@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-icons'
@@ -195,14 +195,42 @@ const hospitalData = {
   ]
 }
 
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
+  const [hospitalDataState, setHospitalData] = useState("")
+  const [hospitalName, setHospitalName] = useState("")
+  const getHospitalDataEndpoint = '/api/dashboard/getHospitalData';
 
+  useEffect(()=> {
+    console.log(props.hospitalName)
+    const fetchHospitalData =  () => {
+      fetch(getHospitalDataEndpoint, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",     
+        },
+        body: JSON.stringify({
+          "hospitalName" : props.hospitalName
+        })
+      })
+      .then(result =>
+        result.json()).catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message);
+        }).
+      then(data => 
+        {
+          setHospitalData(data)
+          console.log(data)
+        })  
+      };
+      fetchHospitalData();
+    
+  },[props.hospitalName])
   return (
     <Container style={{padding: "20px 0px"}}>
       <Row>
         <Col>
           <Card style={cardStyles.hospitalCard}>
-            <HospitalCardItem data={hospitalData.hospital} />
+            <HospitalCardItem hospitalName={props.hospitalName} data={hospitalData.hospital} />
           </Card>
         </Col>
       </Row>
@@ -290,7 +318,7 @@ function HospitalCardItem(props){
     <Container style={{padding: "10px"}}>
       <Row>
         <Col>
-        <h4>Name of hospitalData</h4>
+        <h4>{props.hospitalName}</h4>
         </Col>
         <Col>
          <ul style={cardStyles.list}>
@@ -306,7 +334,7 @@ function HospitalCardItem(props){
         </Col>
         <Col>
           <p>Last Updated: {props.data.lastUpdated}</p>
-          <Button fullwidth size="lg" style={cardStyles.button}>Donate</Button>
+          <Button fullwidth="true" size="lg" style={cardStyles.button}>Donate</Button>
         </Col>
       </Row>
     </Container>

@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
-import hospitalIcon from './hospitalIcon.png';
 import './App.css';
 import hospitals from './hospital.geojson'
-import {Nav, Navbar, NavDropdown, Form, FormControl, Modal, Container} from 'react-bootstrap'
-import AppRouter from './router.js'
+import {Nav, Navbar, Modal} from 'react-bootstrap'
 import RegistrationModal from './Components/RegistrationModal/RegistrationModal'
 import SearchForHospitalNames from './Components/SearchForHospitalNames/SearchForHostpitalNames'
 import { ValidSessionContext } from './Context/ValidSessionContext';
@@ -18,9 +16,9 @@ function App() {
   const [hospitalSearch, setHospitalSearch] = useState("")
   const [hospitalModal, setHospitalModal] = useState(false);
   const [userIsAuthenticated, setAuthenticated] = useState(null)
-  const handleChangeValue = name => setHospitalSearch(name);
+  const [didMount, setDidMount] = useState(false)
+  const handleSearchChange = name => setHospitalSearch(name);
   const handleCloseHospitalModal = () => setHospitalModal(false);
-  const handleOpenHospitalModal = () => setHospitalModal(true);
   mapboxgl.accessToken = 'pk.eyJ1IjoiZm9nczk2IiwiYSI6ImNrODZscmx2ajA4MTUzam5oNmxqZWIwYTcifQ.YOo54ZuxuHWS2l-zvAsNYA';
   const getHospitalsEndpoint = "/api/register";
   const {userAuth} = useContext(ValidSessionContext)
@@ -31,6 +29,9 @@ function App() {
       "Content-Type": "application/json",     
     }
   }
+  // Setting didMount to true upon mounting
+  useEffect(() => setDidMount(true), [])
+
   useEffect(() => {
 
     async function isAuth() {
@@ -58,22 +59,19 @@ function App() {
 },[])
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg" style={{justifyContent: 'space-between'}}>
         <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            
-            {!userIsAuthenticated  && (
-            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
-            <Nav.Link onClick={() => handleOpenHospitalModal()}>Modal</Nav.Link>
-          </Nav>
+        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+        <Navbar.Collapse id="basic-navbar-nav" style={{maxWidth: 400}}>
           {userIsAuthenticated   && (
-          <div>
-            <SearchForHospitalNames value={hospitalSearch} setValue={handleChangeValue} hospitalList={hospitalList} className="mr-sm-2" />
-          </div>)}
+              <SearchForHospitalNames value={hospitalSearch} setValue={(hospitalName) => {
+                handleSearchChange(hospitalName);
+                setHospitalModal(true);
+              }} hospitalList={hospitalList} className="mr-sm-2" />
+          )}
         </Navbar.Collapse>
+        {!userIsAuthenticated  && (
+            <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
       </Navbar>
       <div>
           <RegistrationModal
@@ -90,9 +88,10 @@ function App() {
             onOpenRegistrationModal={() => setModalShow(true)}  
           />  
       </div>
-       <Map></Map>          
-        <Modal size="modal-90w" show={hospitalModal} onHide={handleCloseHospitalModal}>
-          <HospitalModal />
+       <Map></Map>
+       <div class='map-overlay' id='legend'></div>  
+        <Modal size="modal-90w"show={hospitalModal} onHide={handleCloseHospitalModal}>
+          <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
         </Modal>
     </div>
   );
@@ -120,10 +119,30 @@ class Map extends React.Component {
     
     map.on('load', function() {
 
+      var layers = ['0-5', '5-50', '50+'];
+      var colors = ['#E3B3A5', '#E2967E', '#E06941'];
+      var legend = document.getElementById('legend')
+      let legendTitle = document.createElement('h6');
+      legendTitle.innerHTML = 'Predicted Cases'
+      legend.appendChild(legendTitle)
+      for (let i = 0; i < layers.length; i++) {
+        var layer = layers[i];
+        var color = colors[i];
+        var item = document.createElement('div');
+        var key = document.createElement('span');
+        key.className = 'legend-key';
+        key.style.backgroundColor = color;
+      
+        var value = document.createElement('span');
+        value.innerHTML = layer;
+        item.appendChild(key);
+        item.appendChild(value);
+        legend.appendChild(item);
+      }
       const url = 'http://3.15.211.153/api/liliusmed/cases/predicted/geojson';
         window.setInterval(function() {
           map.getSource('newyork').setData(url);
-        }, 200000000);
+        }, 2000);
         
         map.addSource('newyork', { type: 'geojson', data: url });
         map.addLayer({
@@ -132,7 +151,7 @@ class Map extends React.Component {
           'source': 'newyork',
           'paint': {
             'fill-color':
-            ['case', ['<', ['get', "cases"], 5], '#E3B3A5',
+            ['case', ['<=', ['get', "cases"], 5], '#E3B3A5',
                     ['<', ['get', "cases"], 50], '#E2967E',
                     ['>=', ['get', "cases"], 50], '#E06941', '#EAEAEA'],
             'fill-outline-color': '#bf502b',
@@ -148,24 +167,19 @@ class Map extends React.Component {
         data: hospitals
       });
 
-
-      map.loadImage(
-        hospitalIcon,
-        function(error, image) {
-        if (error) throw error;
-        map.addImage('hospital', image);
-        map.addLayer({
-        'id': 'hospital-point',
-        'type': 'symbol',
-        'source': 'hospitals',
-        'layout': {
-        'icon-image': 'hospital',
-        'icon-ignore-placement': true,
-        'icon-size': 0.03
-        }
-        });
-        }
-        );
+      map.addLayer({
+      'id': 'hospital-point',
+      'type': 'circle',
+      'source': 'hospitals',
+      'paint': {
+      // increase the radius of the circle as the zoom level and dbh value increases
+      'circle-radius': {
+        'base': 1.75,
+        'stops': [[4, 3], [6, 4], [7, 5], [8, 8], [10, 12], [12, 20], [15, 25], [18, 30]]
+        },
+        'circle-color': "#A71E15"
+      }
+      });
    
       map.on('click', function(e) {
         var ourMapLayers = map.queryRenderedFeatures(e.point, {
@@ -179,13 +193,23 @@ class Map extends React.Component {
         if (hospitalLayer != null) {
           new mapboxgl.Popup()
           .setLngLat(hospitalLayer.geometry.coordinates)
-          .setHTML('<b>Hospital Name:</b> ' + hospitalLayer.properties.hospitalName + '\n\n'
-           + '<b>Bed Count:</b> ' + hospitalLayer.properties.bedCount)
+          .setHTML('<h4>Hospital</h4><h6>' + hospitalLayer.properties.hospitalName + '</h6>' +
+          '<h6>Bed Count: ' + hospitalLayer.properties.bedCount + '</h6>')
           .addTo(map);
         } else if (newyorkLayer != null && ourMapLayers.length > 1) {
+          let theDate = newyorkLayer.properties.date.split('-');
+          let predictDate = new Date(theDate[0], theDate[1]-1, theDate[2]);
+          console.log(newyorkLayer.properties.date);
           new mapboxgl.Popup()
           .setLngLat(e.lngLat)
-          .setHTML(`<h2>${countyLayer.properties.NAME}</h2><span>Predicted Cases Tomorrow: ${newyorkLayer.properties.cases}</span>`)
+          .setHTML(`<h3>${countyLayer.properties.NAME}</h3>
+                      <h5>${predictDate.toDateString()}</h5>
+                      <h5>Predicted Cases: ${newyorkLayer.properties.cases}</h5>`)
+          .addTo(map);
+        } else if (ourMapLayers.length > 0) {
+          new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`<h3>${countyLayer.properties.NAME}</h3>`)
           .addTo(map);
         }
       });

@@ -17,7 +17,7 @@ module.exports.getCountyData = async(sessionId, fipsId) => {
 	if (session == null) {
 		return 401;
 	} else {
-		let hospitals = await Hospital.find({ 'hospitalInfo.fipsId': fipsId }).select('data -security');
+		let hospitals = await Hospital.find({ 'hospitalInfo.fipsId': fipsId }).select('data');
 		console.log(hospitals);
 	}
 }

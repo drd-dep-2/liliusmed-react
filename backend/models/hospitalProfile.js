@@ -3,7 +3,66 @@
 const mongoose = require('../database/hospitals');
 
 let Schema = mongoose.Schema;
+
 let ObjectId = Schema.ObjectId;
+
+let rateSchema = new Schema({
+	currentVentilatorsBurnRate: { type: Number },
+	averageVentilatorsBurnRate: { type: Number },
+	currentSmallGlovesBurnRate: { type: Number },
+	averageSmallGlovesBurnRate: { type: Number },
+	currentMediumGlovesBurnRate: { type: Number },
+	averageMediumGlovesBurnRate: { type: Number },
+	currentLargeGlovesBurnRate: { type: Number },
+	averageLargeGlovesBurnRate: { type: Number },
+	currentExtraLargeGlovesBurnRate: { type: Number },
+	averageExtraLargeGlovesBurnRate: { type: Number },
+	currentFaceShieldBurnRate: { type: Number },
+	averageFaceShieldBurnRate: { type: Number },
+	currentSurgicalMasksBurnRate: { type: Number },
+	averageSurgicalMasksBurnRate: { type: Number },
+	currentSmallGownsBurnRate: { type: Number },
+	averageSmallGownsBurnRate: { type: Number },
+	currentMediumGownsBurnRate: { type: Number },
+	averageMediumGownsBurnRate: { type: Number },
+	currentLargeGownsBurnRate: { type: Number },
+	averageLargeGownsBurnRate: { type: Number },
+	currentExtraLargeGownsBurnRate: { type: Number },
+	averageExtraLargeGownsBurnRate: { type: Number },
+	current7130RespiratorsBurnRate: { type: Number },
+	average7130RespiratorsBurnRate: { type: Number },
+	current8210RespiratorsBurnRate: { type: Number },
+	average8210RespiratorsBurnRate: { type: Number },
+	current1860RespiratorsBurnRate: { type: Number },
+	average1860RespiratorsBurnRate: { type: Number },
+	burnRateData: [{
+		dayNumber: Number, 
+		dayDate: {
+			type: Date,
+			default: Date.now
+		},
+		ventilators: Number,
+		gloves: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		faceShields: Number,
+		surgicalMasks: Number,
+		gowns: {
+			small: Number,
+			medium: Number,
+			large: Number,
+			extraLarge: Number
+		},
+		respirators: {
+			rNorth7130: Number,
+			r3M8210: Number,
+			r3M1860: Number
+		},
+	}]
+},{ timestamps: true })
 
 let hospitalSchema = Schema({
 	created_at: {
@@ -91,32 +150,8 @@ let hospitalSchema = Schema({
 			total: Number
 		}
 	},
-	burnRateData: [{
-		dayNumber: Number, 
-		dayDate: {
-			type: Date,
-			default: Date.now
-		},
-		ventilators: Number,
-				ventilators: Number,
-		gloves: {
-			small: Number,
-			medium: Number,
-			large: Number,
-			extraLarge: Number
-		},
-		faceShields: Number,
-		surgicalMasks: Number,
-		gowns: {
-			size1: Number,
-			size2: Number
-		},
-		respirators: {
-			rNorth7130: Number,
-			r3M8210: Number,
-			r3M1860: Number
-		},
-	}]
-}, { collection: 'Hospitals'});
+	burnRateData: [rateSchema]
+}, 
+	{	timestamps: true, collection: 'Hospitals'});
 
 module.exports = hospitalSchema;
