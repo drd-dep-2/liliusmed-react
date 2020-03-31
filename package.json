@@ -4,7 +4,7 @@
   "description": "LiliusMed React Front-end and Back-end",
   "main": "server.js",
   "scripts": {
-    "production": "cd backend && node server.js NODE_ENV=production"
+    "start": "cd backend && node server.js NODE_ENV=production"
   },
   "repository": {
     "type": "git",
