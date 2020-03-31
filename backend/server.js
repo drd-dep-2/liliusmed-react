@@ -1,6 +1,7 @@
 'use strict';
 
 const app = require('./app');
+const path = require('path');
 
 const portConfig = require('./config/api_config');
 
@@ -12,6 +13,9 @@ if (app.get('env') === 'development') {
 	ENV = 0;
 } else {
 	ENV = 1;
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, 'build', 'index.html'));
+	});
 }
 app.listen(PORT, (err) => {
 	if (err) {
