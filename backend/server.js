@@ -2,7 +2,7 @@
 
 const app = require('./app');
 const path = require('path');
-gloabl.__basedir = '../';
+global.__basedir = '../';
 const portConfig = require('./config/api_config');
 
 const PORT = portConfig.app.port;
