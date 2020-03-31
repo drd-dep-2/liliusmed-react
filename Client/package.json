@@ -1,6 +1,6 @@
 {
   "name": "covid-19_hospital_surveilance",
-  "homepage": "liliusmed-react.herokuapp.com",
+  "homepage": "liliusmed.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
