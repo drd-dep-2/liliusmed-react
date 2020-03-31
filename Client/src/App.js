@@ -140,7 +140,7 @@ class Map extends React.Component {
       const url = 'http://3.15.211.153/api/liliusmed/cases/predicted/geojson';
         window.setInterval(function() {
           map.getSource('newyork').setData(url);
-        }, 2000);
+        }, 100000);
         
         map.addSource('newyork', { type: 'geojson', data: url });
         map.addLayer({
