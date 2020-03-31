@@ -23,11 +23,7 @@ function App() {
   const getHospitalsEndpoint = "/api/register";
   const {userAuth} = useContext(ValidSessionContext)
   const getHospitaloptions = {
-    method: "GET",
-    
-    headers: {
-      "Content-Type": "application/json",     
-    }
+    method: "GET"
   }
   // Setting didMount to true upon mounting
   useEffect(() => setDidMount(true), [])

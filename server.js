@@ -1,7 +1,7 @@
 'use strict';
 
 const app = require('./app');
-
+const path = require('path');
 const portConfig = require('./config/api_config');
 
 const PORT = portConfig.app.port;
@@ -10,6 +10,7 @@ let ENV;
 
 if (app.get('env') === 'development') {
 	ENV = 0;
+	console.log(__dirname);
 } else {
 	ENV = 1;
 }
