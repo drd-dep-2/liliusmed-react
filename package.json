@@ -1,0 +1,25 @@
+{
+  "name": "liliusmed-react",
+  "version": "1.0.0",
+  "description": "LiliusMed React Front-end and Back-end",
+  "main": "server.js",
+  "scripts": {
+    "production": "cd backend && node server.js NODE_ENV=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGreatAxios/liliusmed-react.git"
+  },
+  "keywords": [
+    "React",
+    "Express",
+    "Node",
+    "Medical"
+  ],
+  "author": "Lilius Inc, Ryan Fogarty, Sawyer Cutler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheGreatAxios/liliusmed-react/issues"
+  },
+  "homepage": "https://github.com/TheGreatAxios/liliusmed-react#readme"
+}
