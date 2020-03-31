@@ -13,6 +13,9 @@ if (app.get('env') === 'development') {
 	console.log(__dirname);
 } else {
 	ENV = 1;
+
+	// Serve static files from the React frontend app
+	app.use(express.static(path.join(__dirname, 'Client/build')))
 	// Anything that doesn't match the above, send back index.html
 	app.get('/', (req, res) => {
 	 res.sendFile(path.join(__dirname + '/Client/build', 'index.html'));
