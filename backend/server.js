@@ -14,7 +14,7 @@ if (app.get('env') === 'development') {
 } else {
 	ENV = 1;
 	app.get('/', (req, res) => {
-		res.sendFile(path.join(__dirname, 'build', 'index.html'));
+		res.sendFile(path.join(__dirname, '/Client/app/build', 'index.html'));
 	});
 }
 app.listen(PORT, (err) => {
