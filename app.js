@@ -56,6 +56,9 @@ app.set('views', [__dirname, './client/views', __dirname, './api/views', __dirna
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'Client/build')))
 
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname + '/Client/build', 'index.html'));
+})
 
 // Initialize Routing
 require('./api/index')(app);
