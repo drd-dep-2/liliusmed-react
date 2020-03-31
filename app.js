@@ -53,7 +53,8 @@ app.set('views', [__dirname, './client/views', __dirname, './api/views', __dirna
 
 
 // Static Files
-//app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'Client/build')))
 
 
 // Initialize Routing
