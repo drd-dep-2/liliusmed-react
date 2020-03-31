@@ -2,7 +2,7 @@
 
 const app = require('./app');
 const path = require('path');
-
+gloabl.__basedir = '../';
 const portConfig = require('./config/api_config');
 
 const PORT = portConfig.app.port;
@@ -16,7 +16,7 @@ if (app.get('env') === 'development') {
 	ENV = 1;
 	// Anything that doesn't match the above, send back index.html
 	app.get('*', (req, res) => {
-	 res.sendFile('../Client/app/build/index.html');
+	 res.sendFile(path.join(__basedir + '/Client/app/build', 'index.html');
 	})
 }
 app.listen(PORT, (err) => {
