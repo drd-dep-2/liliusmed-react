@@ -7,7 +7,7 @@
     "dev": "nodemon server.js NODE_ENV=development",
     "start": "node server.js",
     "heroku-postbuild": "cd Client && npm install && npm run build"
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TheGreatAxios/liliusmed-react.git"
