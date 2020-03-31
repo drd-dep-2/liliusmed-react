@@ -7,7 +7,7 @@
     "start": "node backend/server.js NODE_ENV=production",
     "postreact": "cd Client/app && yarn install & yarn build",
     "postback": "cd backend && npm install",
-    "heroku-postbuild": "postreact && postback"
+    "heroku-postbuild": "npm run postreact && npm run postback"
   },
   "repository": {
     "type": "git",
