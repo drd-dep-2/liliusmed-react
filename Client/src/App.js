@@ -137,7 +137,7 @@ class Map extends React.Component {
         item.appendChild(value);
         legend.appendChild(item);
       }
-      const url = 'http://3.15.211.153/api/liliusmed/cases/predicted/geojson';
+      const url = 'https://dev.aimee.bio/api/liliusmed/cases/predicted/geojson';
         window.setInterval(function() {
           map.getSource('newyork').setData(url);
         }, 2000);
