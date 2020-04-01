@@ -6,7 +6,7 @@ const config = {
 	app: {
 		type: process.env.NODE_ENV,
 		secret: 'LiliusMedPlatform',
-		port: process.env.PORT
+		port: parseInt(process.env.PORT)
 	},
 	database: {
 		tickets: {
