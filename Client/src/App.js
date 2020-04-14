@@ -33,6 +33,11 @@ function App() {
     async function isAuth() {
       const auth = await userAuth();
       setAuthenticated(auth)
+      if (auth == true) {
+        setHospitalModal(true);
+      } else {
+        setHospitalModal(false)
+      }
     }
     // Execute the created function directly
     isAuth();
@@ -88,7 +93,7 @@ function App() {
       </div>
        <Map></Map>
        <div class='map-overlay' id='legend'></div>  
-        <Modal className="modal-background" size="xl"show={hospitalModal} onHide={handleCloseHospitalModal}>
+        <Modal className="modal-background" size="xl" show={hospitalModal} onHide={handleCloseHospitalModal}>
           <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
         </Modal>
     </div>

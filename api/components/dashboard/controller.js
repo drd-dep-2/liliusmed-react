@@ -49,13 +49,20 @@ module.exports.getHospitalFromSearch = async(sessionId, email) => {
 	}
 }
 
-module.exports.getHospitalByName = async(sessionId, name) => {
+module.exports.getHospitalByUser = async(sessionId) => {
 	let session = await Session.findOne({ 'sessionId': sessionId });
 	if (session == null) {
+		return 401;
+	} else {
+		let hospital = await Hospital.findOne({ 'hospitalInfo.email': session.email }).select('-burnRateData').select('-created_at');
+		return hospital;
+	}
+	/*if (session == null) {
 		return 401;
 	} else {
 		let hospital = await Hospital.findOne({'hospitalInfo.name': name }).select('-security').select('-_id').select('-verified')
 		.select('-burnRateData').select('-created_at');
 		return hospital;
 	}
+	*/
 }

@@ -68,7 +68,7 @@ router.post('/search/select', (req, res) => {
 //Get Hospital Data for search by Hosptial Name
 router.post('/dashboard/getHospitalData', async(req, res) => {
 
-	
+	/*
 	let hospitalName = req.body.hospitalName;
 	let sessionId = req.cookies.sessionId;
 	if(!hospitalName)
@@ -76,7 +76,17 @@ router.post('/dashboard/getHospitalData', async(req, res) => {
 		res.sendStatus(500)
 	}
 	const hospitalObj =  await Hospital.getHospitalByName(sessionId, hospitalName)
-	res.json(hospitalObj)
+	res.json(hospitalObj) */
+
+	let session = req.cookies.sessionId;
+	Hospital.getHospitalByUser(session)
+		.then(result => {
+			console.log(result);
+			res.json(result);
+		})
+		.catch(err => {
+			res.sendStatus(404);
+		});
 });
 
 module.exports = router;

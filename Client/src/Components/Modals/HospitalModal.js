@@ -27,7 +27,7 @@ const covidIcons = {
   "ventilatorWhite": ventilatorWhite
 }
 const getHospitalInfoEndpoint = "/dashboard/getHospitalData";
-const getHospitalInfoOptions ={
+const getHospitalInfoOptions = {
   method: "POST",
   
   headers: {
@@ -38,6 +38,7 @@ const getHospitalInfoOptions ={
     "hospitalName": "Norwood Hospital"
   })
 }
+console.log(getHospitalInfoOptions);
 const cardStyles = {
   hospitalCard:{
     backgroundColor: '#373540',
