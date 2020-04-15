@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import Map from "./Components/map.js";
+import AppNavbar from "./Components/nav.js";
 import mapboxgl from 'mapbox-gl';
 import './App.css';
 import hospitals from './hospital.geojson'
@@ -60,42 +61,12 @@ function App() {
   }, [])
   return (
     <div>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">U.S. Hospital Supply Inventory</Navbar.Brand>
-        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            {!userIsAuthenticated && (
-              <Nav.Link onClick={() => setLoginModalShow(true)}>Login</Nav.Link>)}
-          </Nav>
-          {userIsAuthenticated && (
-            <SearchForHospitalNames value={hospitalSearch} setValue={(hospitalName) => {
-              handleSearchChange(hospitalName);
-              setHospitalModal(true);
-            }} hospitalList={hospitalList} className="mr-sm-2" />
-          )}
-        </Navbar.Collapse>
-      </Navbar>
-      <div>
-        <RegistrationModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          hospitalList={hospitalList}
-          onOpenLogin
-        />
-      </div>
-      <div>
-        <LoginModal
-          show={loginModalShow}
-          onHide={() => setLoginModalShow(false)}
-          onOpenRegistrationModal={() => setModalShow(true)}
-        />
-      </div>
-      <Map></Map>
-      <div class='map-overlay' id='legend'></div>
+      <AppNavbar />
       <Modal className="modal-background" size="xl" show={hospitalModal} onHide={handleCloseHospitalModal}>
         <HospitalModal hospitalName={hospitalSearch}> </HospitalModal>
       </Modal>
+      <Map></Map>
+      <div class='map-overlay' id='legend'></div>
     </div>
   );
 }
